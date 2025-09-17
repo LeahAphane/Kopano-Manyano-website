@@ -1,0 +1,30 @@
+Form data: Array
+(
+    [csrf_token] => 13e0c9fe0dffc1c551052946bb6b504a89efaf437649a635a88c12eadb481f55
+    [name] => Leah
+    [email] => leah@gmail.com
+    [amount] => 100
+    [custom-amount] => 
+)
+Form data: Array
+(
+    [csrf_token] => 13e0c9fe0dffc1c551052946bb6b504a89efaf437649a635a88c12eadb481f55
+    [email] => dineoleah533@gmail.com
+)
+Form data: Array
+(
+    [csrf_token] => 13e0c9fe0dffc1c551052946bb6b504a89efaf437649a635a88c12eadb481f55
+    [name] => Leah
+    [email] => anchor03thrifting@gmail.com
+    [message] => i want to enquire
+)
+Form data: Array
+(
+    [csrf_token] => 13e0c9fe0dffc1c551052946bb6b504a89efaf437649a635a88c12eadb481f55
+    [email] => dineoleah533@gmail.com
+)
+Form data: Array
+(
+    [csrf_token] => 3d4ff6b4b5580d707d462403dcc7e6c013fc30c6eba41788146fa7b856980746
+    [email] => dineoleah533@gmail.com
+)
