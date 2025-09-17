@@ -17,3 +17,4 @@ node_modules/
 # Build artifacts & archives
 *.zip
 config/kgmc-8a098-firebase-adminsdk-fbsvc-05c6d57c.js
+config/kmgc-*.json
