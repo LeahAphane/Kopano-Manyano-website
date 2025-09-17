@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign up for Kopano Manyano Center for Homeless to join our community and support our mission.">
+    <title>Sign Up - Kopano Manyano Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/Sign Up.css">
+</head>
+<body class="smooth-scroll">
+    <header id="top-header" class="bg-[var(--secondary-color)] text-white p-4 fixed w-full z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">Kopano Manyano God the Founder Center for Homeless</h1>
+            <nav class="nav-menu">
+                <a href="Home Page.html" class="text-white hover:text-[var(--accent-color)]">Home</a>
+            </nav>
+        </div>
+    </header>
+    <main class="min-h-screen flex items-center justify-center pt-20" style="padding-top: 64px;">
+        <div class="form-container">
+            <h2 class="text-2xl font-bold text-center mb-6">Sign Up</h2>
+            <form id="signupForm" class="space-y-4">
+                <div class="form-group">
+                    <label for="name" class="block text-sm font-medium">Full Name</label>
+                    <input type="text" id="name" name="name" required aria-describedby="nameError" class="w-full p-2 border rounded">
+                    <div id="nameError" class="error-message text-red-500 text-sm" style="display: none;">Please enter your full name (at least 2 characters).</div>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="block text-sm font-medium">Email Address</label>
+                    <input type="email" id="email" name="email" required aria-describedby="emailError" class="w-full p-2 border rounded">
+                    <div id="emailError" class="error-message text-red-500 text-sm" style="display: none;">Please enter a valid email address.</div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="block text-sm font-medium">Password</label>
+                    <input type="password" id="password" name="password" required aria-describedby="passwordError" class="w-full p-2 border rounded">
+                    <div id="passwordError" class="error-message text-red-500 text-sm" style="display: none;">Password must be at least 6 characters.</div>
+                </div>
+                <button type="submit" class="w-full bg-[var(--primary-color)] text-white p-2 rounded hover:bg-red-600">Sign Up</button>
+                <div id="successMessage" class="success-message text-green-500 text-sm text-center" style="display: none;"></div>
+            </form>
+            <div class="form-footer text-center mt-4">
+                <p>Already have an account? <a href="Login.html" class="text-[var(--primary-color)] hover:text-[var(--accent-color)]">Login</a></p>
+            </div>
+        </div>
+    </main>
+    <footer class="bg-[var(--secondary-color)] text-white text-center p-4 mt-auto">
+        <p>© 2025 Kopano Manyano God the Founder Center for Homeless. All rights reserved.</p>
+    </footer>
+
+<script src="../jss/Sign Up.js"></script>
+</body>
+</html>

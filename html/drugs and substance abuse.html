@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kopano Manyano Center for Homeless offers rehabilitation and support for drugs and substance abuse in Gauteng.">
+    <meta name="keywords" content="drugs, substance abuse, rehabilitation, homeless support, Gauteng">
+    <meta name="author" content="Kopano Manyano Center">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#ef4444">
+    <meta property="og:title" content="Drugs and Substance Abuse - Kopano Manyano Center for Homeless">
+    <meta property="og:description" content="We provide rehabilitation and counseling for substance abuse in Gauteng.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.kopanomanyano.org/drugs-substance-abuse">
+    <title>Drugs and Substance Abuse - Kopano Manyano Center for Homeless</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/drugs and substance abuse.css" />
+
+</head>
+<body class="font-sans text-gray-900 bg-gray-50 smooth-scroll">
+    <header class="bg-gradient-to-r from-[var(--primary-color)] to-gray-900 text-white fixed w-full top-0 z-50 transition-all duration-300" role="banner" aria-label="Main navigation">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="logo">
+                <a href="Home Page.html" aria-label="Kopano Manyano Home">
+                    <img src="images/logo.png" alt="Kopano Manyano Logo" class="w-24" loading="lazy">
+                </a>
+            </div>
+            <nav class="flex items-center" role="navigation">
+                <button class="hamburger md:hidden text-2xl bg-none border-none" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu"><i class="fas fa-bars"></i></button>
+                <ul class="nav-menu hidden md:flex space-x-4 bg-gray-900 md:bg-transparent absolute md:static top-16 left-0 w-full md:w-auto p-4 md:p-0 transition-all duration-300" id="nav-menu">
+                    <li><a href="Home Page.html" class="btn-primary" aria-label="Home">Home</a></li>
+                    <li><a href="index.html#mission" class="btn-primary" aria-label="About">About</a></li>
+                    <li class="services-nav-item relative">
+                        <button class="btn-primary" aria-label="Services" aria-expanded="false" aria-controls="services-dropdown">Services</button>
+                        <ul class="services-dropdown" id="services-dropdown">
+                            <li><a href="index.html#events" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-gray-900 transition-colors" aria-label="Events">Events</a></li>
+                            <li><a href="index.html#food-assistance" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-gray-900 transition-colors" aria-label="Food Assistance">Food Assistance</a></li>
+                            <li><a href="index.html#volunteer" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-gray-900 transition-colors" aria-label="Volunteer">Volunteer</a></li>
+                            <li><a href="index.html#shelter-program" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-gray-900 transition-colors" aria-label="Shelter Program">Shelter Program</a></li>
+                            <li><a href="index.html#community-engagement" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-gray-900 transition-colors" aria-label="Community Engagement">Community Engagement</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="index.html#get-involved" class="btn-primary" aria-label="Get Involved">Get Involved</a></li>
+                    <li><a href="index.html#gallery" class="btn-primary" aria-label="Gallery">Gallery</a></li>
+                    <li><a href="index.html#contact" class="btn-primary" aria-label="Contact">Contact</a></li>
+                </ul>
+                <button class="theme-toggle ml-4 text-2xl" aria-label="Toggle dark theme"><i class="fas fa-moon"></i></button>
+            </nav>
+        </div>
+    </header>
+    <div class="chat-widget fixed bottom-4 right-4 bg-[var(--primary-color)] text-gray-900 p-3 rounded-full cursor-pointer z-50 shadow-lg" aria-label="Open chat"><i class="fas fa-comment"></i></div>
+    <div class="chat-box hidden fixed bottom-16 right-4 w-80 bg-white rounded-lg shadow-lg p-4 z-50" id="chat-box" role="dialog" aria-label="Chat support">
+        <h3 class="text-lg font-semibold">Need Help?</h3>
+        <div class="space-y-2">
+            <button class="w-full bg-[var(--primary-color)] text-gray-900 py-2 rounded-md hover:bg-red-600 transition-colors" data-action="donate">How to Donate?</button>
+            <button class="w-full bg-[var(--primary-color)] text-gray-900 W-full bg-[var(--primary-color)] text-gray-900 py-2 rounded-md hover:bg-red-600 transition-colors" data-action="volunteer">Volunteer Info</button>
+            <button class="w-full bg-[var(--primary-color)] text-gray-900 py-2 rounded-md hover:bg-red-600 transition-colors" data-action="contact">Contact Us</button>
+        </div>
+        <p id="chat-response" class="mt-2" aria-live="polite"></p>
+    </div>
+    <main role="main">
+        <section class="hero relative h-[60vh] flex items-center justify-center text-center text-white mt-16 bg-gradient-to-r from-[var(--primary-color)] to-gray-900 animate-slide-in" role="region" aria-label="Drugs and Substance Abuse hero section">
+            <div class="absolute inset-0 bg-black opacity-50 z-0"></div>
+            <div class="hero-content relative z-10">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Overcome Substance Abuse</h1>
+                <p class="text-lg md:text-xl mb-6 max-w-lg mx-auto">Our rehabilitation and counseling programs help individuals break free from addiction in Gauteng.</p>
+                <a href="donate.html" class="inline-block px-6 py-3 bg-[var(--primary-color)] text-gray-900 rounded-full font-semibold hover:bg-red-600 transition-colors" aria-label="Donate now">Support Recovery</a>
+            </div>
+        </section>
+        <section id="substance-abuse-support" class="py-16 bg-gray-100 animate-slide-in" role="region" aria-label="Substance Abuse Support Services">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-4">Path to <span class="text-[var(--primary-color)]">Recovery</span></h2>
+                <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
+                <div class="max-w-3xl mx-auto text-center">
+                    <p class="mb-4">Kopano Manyano Center provides tailored support for individuals struggling with drugs and substance abuse, particularly among the homeless population. Our services include:</p>
+                    <ul class="list-disc list-inside text-left space-y-2">
+                        <li><strong>Rehabilitation Programs:</strong> Structured programs to support detox and recovery.</li>
+                        <li><strong>Counseling and Therapy:</strong> One-on-one and group sessions to address underlying issues.</li>
+                        <li><strong>Relapse Prevention:</strong> Education and strategies to maintain sobriety.</li>
+                        <li><strong>Community Reintegration:</strong> Support to rebuild lives and reconnect with society.</li>
+                    </ul>
+                    <p class="mt-4">We are committed to helping individuals achieve lasting recovery and regain their dignity.</p>
+                    <a href="index.html#contact" class="inline-block mt-6 px-6 py-3 bg-[var(--primary-color)] text-gray-900 rounded-full font-semibold hover:bg-red-600 transition-colors" aria-label="Contact us">Seek Help Today</a>
+                </div>
+            </div>
+        </section>
+        <section id="faq" class="py-16 bg-gray-100 animate-slide-in" role="region" aria-label="Frequently Asked Questions">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-4">Frequently <span class="text-[var(--primary-color)]">Asked Questions</span></h2>
+                <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
+                <div class="max-w-2xl mx-auto space-y-4">
+                    <div class="bg-white rounded-lg shadow-lg">
+                        <div class="accordion-header p-4 flex justify-between items-center" aria-expanded="false">
+                            <h3 class="font-semibold">What types of substances do you address?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>We support individuals struggling with alcohol, drugs, and other substances, tailoring programs to their needs.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg">
+                        <div class="accordion-header p-4 flex justify-between items-center" aria-expanded="false">
+                            <h3 class="font-semibold">Is treatment free?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Yes, our services are free for homeless individuals, funded by donations and grants.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg">
+                        <div class="accordion-header p-4 flex justify-between items-center" aria-expanded="false">
+                            <h3 class="font-semibold">How can I support your programs?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Donate, volunteer, or raise awareness. Contact us at info@kopanomanyano.org for details.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-gray-900 text-white py-8" role="contentinfo" aria-label="Footer">
+        <div class="container mx-auto px-4 text-center">
+            <p>Email: <a href="mailto:kopanomanyano51@gmail.com" class="text-[var(--primary-color)] hover:text-red-600 transition-colors">kopanomanyano51@gmail.com</a></p>
+            <p>Phone: <a href="tel:+27123456789" class="text-[var(--primary-color)] hover:text-red-600 transition-colors">+27 87 265 1327</a></p>
+            <p class="mt-4">© 2025 Kopano Manyano God the Founder Center for Homeless. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="../jss/drugs and substance abuse.js"></script>
+</body>
+</html>

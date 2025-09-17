@@ -1,0 +1,575 @@
+<?php
+session_start();
+require_once 'auto_login.php';
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: /My%20Website/php/login.php?error=' . urlencode('Please log in to access this page.'));
+    exit;
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kopano Manyano Center for Homeless provides shelter, food, and support in Gauteng.">
+    <meta name="keywords" content="homeless support, charity, Gauteng, donation, volunteer">
+    <meta name="author" content="Kopano Manyano Center">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#ef4444">
+    <meta property="og:title" content="Kopano Manyano Center for Homeless">
+    <meta property="og:description" content="Support our mission to provide shelter and dignity in Gauteng.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.kopanomanyano.org">
+    <title>Kopano Manyano Center for Homeless</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/Home Page.css">
+</head>
+<body class="font-sans text-gray-900 bg-gray-50 smooth-scroll">
+    <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
+    <a href="/My%20Website/php/logout.php">Logout</a>
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-[var(--primary-color)] to-gray-900 text-white fixed w-full top-0 z-50 transition-all duration-300" role="banner" aria-label="Main navigation">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="logo">
+                <a href="#hero" aria-label="Kopano Manyano Home">
+                    <img 
+                         src="../Images/LOGO.jpeg" 
+                         alt="Kopano Manyano Center for Homeless Logo" 
+                         class="logo"
+                         loading="lazy"
+                    />
+                </a>
+            </div>
+            <nav class="flex items-center" role="navigation">
+                <button class="hamburger md:hidden text-2xl bg-none border-none" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu"><i class="fas fa-bars"></i></button>
+                <ul class="nav-menu hidden md:flex space-x-4 bg-gray-900 md:bg-transparent absolute md:static top-16 left-0 w-full md:w-auto p-4 md:p-0 transition-all duration-300" id="nav-menu">
+                    <li><a href="Home Page.html" class="btn-primary" aria-label="Home">Home</a></li>
+                    <li><a href="About Us.html" class="btn-primary" aria-label="About">About</a></li>
+                    <li class="services-nav-item relative">
+                        <button class="btn-primary" aria-label="Services" aria-expanded="false" aria-controls="services-dropdown">Services <i class="fas fa-chevron-down ml-1"></i></button>
+                        <ul class="services-dropdown absolute bg-gray-900 w-48 mt-2 rounded-md shadow-lg hidden" id="services-dropdown" role="menu">
+                            <li><a href="Events.html" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-gray-900 transition-colors" aria-label="Events">Events</a></li>
+                            <li><a href="Food Assistance.html" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-gray-900 transition-colors" aria-label="Food Assistance">Food Assistance</a></li>
+                            <li><a href="Volunteer.html" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-gray-900 transition-colors" aria-label="Volunteer">Volunteer</a></li>
+                            <li><a href="shelter programs.html" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-gray-900 transition-colors" aria-label="Shelter Program">Shelter Program</a></li>
+                            <li><a href="Community Engagement.html" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-gray-900 transition-colors" aria-label="Community Engagement">Community Engagement</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="Volunteer.html" class="btn-primary" aria-label="Get Involved">Get Involved</a></li>
+                    <li><a href="Gallery.html" class="btn-primary" aria-label="Gallery">Gallery</a></li>
+                    <li><a href="Contact Us.html" class="btn-primary" aria-label="Contact">Contact</a></li>
+                    <li><a href="Donate.html" class="btn-primary" aria-label="Donate">Donate</a></li>
+                     <li><a href="../php/signup.php"class="btn-primary" aria-label="Donate">S</a></li>
+                      <li><a href="../php/login.php" class="btn-primary" aria-label="Donate">L</a></li>
+                   
+                </ul>
+                <button class="theme-toggle ml-4 text-2xl" aria-label="Toggle dark theme"><i class="fas fa-moon"></i></button>
+            </nav>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Accessibility Skip Link -->
+    <a href="#main-content" class="skip-link absolute left-0 top-0 bg-[var(--primary-color)] text-white px-4 py-2 z-50 focus:translate-y-0 -translate-y-full transition-transform duration-200">Skip to main content</a>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget fixed bottom-4 right-4 bg-[var(--primary-color)] text-gray-900 p-3 rounded-full cursor-pointer z-50 shadow-lg" aria-label="Open chat" tabindex="0"><i class="fas fa-comment"></i></div>
+    <div class="chat-box hidden fixed bottom-16 right-4 w-80 bg-white rounded-lg shadow-lg p-4 z-50" id="chat-box" role="dialog" aria-label="Chat support" aria-modal="true">
+        <h3 class="text-lg font-semibold">Need Help?</h3>
+        <div class="space-y-2">
+            <button class="w-full bg-[var(--primary-color)] text-gray-900 py-2 rounded-md hover:bg-red-600 transition-colors" data-action="donate">How to Donate?</button>
+            <button class="w-full bg-[var(--primary-color)] text-gray-900 py-2 rounded-md hover:bg-red-600 transition-colors" data-action="volunteer">Volunteer Info</button>
+            <button class="w-full bg-[var(--primary-color)] text-gray-900 py-2 rounded-md hover:bg-red-600 transition-colors" data-action="contact">Contact Us</button>
+        </div>
+        <p id="chat-response" class="mt-2" aria-live="polite"></p>
+        <button class="chat-close absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl" aria-label="Close chat">&times;</button>
+    </div>
+
+    <!-- Announcement Banner -->
+    <div class="announcement-banner fixed top-0 left-0 w-full bg-yellow-400 text-gray-900 text-center py-2 z-50 shadow-md hidden" id="announcement-banner" role="alert">
+        <span>Winter Drive: Donate blankets and warm clothes at our center! <a href="Donate.html" class="underline font-semibold">Learn more</a></span>
+        <button class="ml-4 text-xl font-bold" aria-label="Close announcement" onclick="document.getElementById('announcement-banner').classList.add('hidden')">&times;</button>
+    </div>
+
+    <!-- Main Content -->
+<!-- Main Content -->
+<section 
+  class="relative h-[90vh] w-full mt-16 overflow-hidden"
+  id="hero" 
+  role="region" 
+  aria-label="Hero section"
+>
+  <!-- Fullscreen carousel background -->
+  <div id="carouselImages" class="absolute inset-0 w-full h-full z-0">
+    <img src="../Images/HAND1.jpg" class="carousel-image absolute inset-0 w-full h-full object-cover opacity-100 transition-opacity duration-1000" alt="Slide 1">
+    <img src="../Images/ALBINISM5.jpg" class="carousel-image absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000" alt="Slide 2">
+    <img src="../Images/NO DRUGS.jpg" class="carousel-image absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000" alt="Slide 3">
+  </div>
+
+  <!-- Content container full width and height -->
+  <div class="relative z-10 flex items-center justify-center h-full w-full px-4">
+    <div class="backdrop-blur-sm bg-black/40 p-6 rounded-xl max-w-3xl text-center text-white">
+      <h1 class="text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">
+        Hope for a Better Tomorrow
+      </h1>
+      <p class="text-lg md:text-2xl mb-6 max-w-xl mx-auto leading-relaxed">
+        Join us in transforming lives—providing warmth, dignity, and shelter to the vulnerable in Gauteng.
+      </p>
+      <div class="flex flex-col md:flex-row gap-4 justify-center">
+        <a href="Donate.html" 
+           class="px-6 py-3 bg-[var(--primary-color)] text-gray-900 rounded-full font-bold hover:bg-red-600 transition-colors duration-300" 
+           aria-label="Donate now">
+           Donate Now
+        </a>
+        <a href="Volunteer.html" 
+           class="px-6 py-3 border-2 border-white rounded-full font-bold hover:bg-white hover:text-[var(--primary-color)] transition-all duration-300" 
+           aria-label="Volunteer with us">
+           Become a Volunteer
+        </a>
+      </div>
+
+      <div class="mt-8 text-sm md:text-base italic text-gray-200">
+        Over <strong>200</strong> lives touched through your support.
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+        <!-- Mission Content -->
+        <!-- Mission Content -->
+<section id="mission" class="relative py-24 bg-gradient-to-b from-white to-gray-50 overflow-hidden" role="region" aria-label="Our Mission">
+    <div class="container mx-auto px-6 lg:px-12">
+        <!-- Mission Header -->
+        <div class="text-center mb-12">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 animate-fade-in">Our Mission</h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-fade-in-delay">
+                Empowering communities through compassion, support, and sustainable solutions.
+            </p>
+        </div>
+
+        <!-- Image Gallery with Overlay -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="relative group overflow-hidden rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-500">
+                <img 
+                    src="../Images/kopano.jpeg" 
+                    alt="Community support initiative" 
+                    class="w-full h-[350px] object-cover transition-opacity duration-300 group-hover:opacity-80" 
+                    loading="lazy"
+                >
+                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300 flex items-center justify-center">
+                    <p class="text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        Building Stronger Communities
+                    </p>
+                </div>
+            </div>
+            <div class="relative group overflow-hidden rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-500">
+                <img 
+                    src="../Images/tent.jpg" 
+                    alt="Temporary shelter program" 
+                    class="w-full h-[350px] object-cover transition-opacity duration-300 group-hover:opacity-80" 
+                    loading="lazy"
+                >
+                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300 flex items-center justify-center">
+                    <p class="text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        Providing Safe Havens
+                    </p>
+                </div>
+            </div>
+            <div class="relative group overflow-hidden rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-500">
+                <img 
+                    src="../Images/street.png" 
+                    alt="Street outreach support" 
+                    class="w-full h-[350px] object-cover transition-opacity duration-300 group-hover:opacity-80" 
+                    loading="lazy"
+                >
+                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300 flex items-center justify-center">
+                    <p class="text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        Reaching Those in Need
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="text-center mt-12 animate-fade-in-delay">
+            <a 
+                href="Volunteer.html"
+                class="inline-block px-8 py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-colors duration-300"
+                aria-label="Learn how to get involved with our mission"
+            >
+                Join Our Mission
+            </a>
+             <!-- Mission Content -->
+            <div>
+                <div class="relative z-10 bg-white/80 backdrop-blur-md py-16 px-4 rounded-xl shadow-xl max-w-4xl mx-auto text-center"> 
+
+                    <div class="w-24 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
+                    <p class="mb-6 text-lg text-gray-800">
+                      Kopano Manyano is a non-profit organization committed to restoring the dignity and potential of homeless and vulnerable individuals in Gauteng and beyond. 
+                      Our mission is to provide more than just shelter and food — we aim to empower individuals with the tools, care, and guidance necessary to transition from 
+                      crisis to stability, and from dependency to self-reliance. By fostering a supportive environment and holistic development programs, 
+                      we help people reclaim their lives and contribute meaningfully to society. We believe in hope, humanity, and second chances.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Custom CSS for Animations -->
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        .animate-fade-in-delay {
+            animation: fadeIn 1s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+    </style>
+</section>
+
+            <!-- Success Stories Section -->
+<section id="success-stories" class="py-16 bg-white" role="region" aria-label="Success Stories">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-4">Some of Our <span class="text-[var(--primary-color)]">Success Stories</span></h2>
+        <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
+        <div class="success-slider">
+            <div class="slider-container">
+                <div class="slide">
+                    <video controls>
+                        <source type="video/mp4" src="../Videos/Feeding.mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="slide">
+                    <video controls>
+                        <source type="video/mp4" src="../Videos/Feeding1.mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="slide">
+                    <img src="../Images/feed1.jpg" alt="Volunteers distributing meals to the homeless in Gauteng" loading="lazy">
+                </div>
+                <div class="slide">
+                    <img src="../Images/giving food 2.jpg" alt="Community members receiving food support from Kopano Manyano" loading="lazy">
+                </div>
+                <div class="slide">
+                    <img src="../Images/giving food5.jpg" alt="Kopano Manyano team providing food assistance on the streets" loading="lazy">
+                </div>
+            </div>
+            <button class="slider-btn prev" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
+            <button class="slider-btn next" aria-label="Next slide"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="text-center mt-6">
+            <a href="Gallery.html" class="inline-block px-6 py-3 bg-[var(--primary-color)] text-gray-900 rounded-full font-semibold hover:bg-red-600 transition-colors">See More Stories</a>
+        </div>
+    </div>
+</section>
+
+<section id="help-needy"
+         class="relative h-[800px] bg-no-repeat bg-cover bg-center overflow-hidden"
+         style="background-image: url('../Images/future.jpg');"
+         role="region"
+         aria-label="Importance of Helping the Needy">
+
+    <!-- Gradient Overlay: Black/Red blend -->
+    
+
+    <!-- Content Wrapper -->
+    <div class="container mx-auto px-4 relative z-10 h-full flex items-start pt-20">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+
+            <!-- Left Side (Text) -->
+            <div class="text-left">
+                <!-- Heading -->
+                <h2 class="text-4xl md:text-5xl font-extrabold text-white uppercase tracking-wide drop-shadow-xl animate-fade-in mb-4">
+                    Helping the Needy Uplifts Us All
+                </h2>
+
+                <!-- Main paragraph -->
+                <p class="text-lg text-white font-light leading-relaxed drop-shadow-md animate-fade-in-delay mb-4">
+                    Every act of kindness—whether <span class="font-semibold text-red-400">sharing a meal</span>, 
+                    <span class="font-semibold text-red-400">offering shelter</span>, or <span class="font-semibold text-red-400">giving hope</span>—
+                    builds stronger communities and restores dignity. Together, we can make a <span class="text-red-500 font-bold">lasting difference</span>.
+                </p>
+
+                <!-- Sub quote -->
+                <p class="text-md text-gray-200 font-medium italic mb-6">
+                    "Even a small act of love can light someone’s entire world. Be that light."
+                </p>
+
+                <!-- Red-black feature list -->
+                <div class="mt-6">
+                    <h3 class="text-2xl font-bold text-red-500 mb-3 border-b-2 border-red-700 inline-block">Why It Matters</h3>
+                    <ul class="list-disc list-inside space-y-2 text-md font-medium text-white">
+                        <li>Restores <span class="text-red-300 font-semibold">dignity</span> to the most vulnerable</li>
+                        <li>Builds <span class="text-red-300 font-semibold">unity</span> and compassion in communities</li>
+                        <li>Creates <span class="text-red-300 font-semibold">opportunities</span> for empowerment</li>
+                        <li>Inspires a <span class="text-red-300 font-semibold">cycle of giving</span> and hope</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+
+
+  <section id="our-services" class="py-16 bg text-Black">
+  <div class="container mx-auto px-4 max-w-6xl text-center">
+    <h2 class="text-4xl font-extrabold uppercase mb-12 border-b-4 border-red-600 inline-block pb-2">
+      Our Key Services
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+      
+      <div class="bg-red-900 rounded-lg p-6 shadow-lg hover:bg-red-700 transition duration-300">
+        <div class="mb-4 text-red-400 text-5xl">
+          <!-- Use any icon library like FontAwesome or SVG here -->
+          &#128100; <!-- user icon -->
+        </div>
+        <h3 class="text-2xl font-bold mb-2">Counseling for Abuse Survivors</h3>
+        <p>Compassionate support for individuals affected by abuse to help them heal and rebuild their lives.</p>
+      </div>
+
+      <div class="bg-red-900 rounded-lg p-6 shadow-lg hover:bg-red-700 transition duration-300">
+        <div class="mb-4 text-red-400 text-5xl">
+         &#128104;&#127997; <!-- Man: medium skin tone -->
+
+        </div>
+        <h3 class="text-2xl font-bold mb-2">Albinism Awareness</h3>
+        <p>Educational programs to promote understanding, reduce stigma, and support people with albinism.</p>
+      </div>
+
+      <div class="bg-red-900 rounded-lg p-6 shadow-lg hover:bg-red-700 transition duration-300">
+        <div class="mb-4 text-red-400 text-5xl">
+          &#128138; <!-- ribbon icon -->
+        </div>
+        <h3 class="text-2xl font-bold mb-2">HIV & AIDS Counseling</h3>
+        <p>Confidential counseling and guidance for individuals affected by HIV/AIDS and their families.</p>
+      </div>
+
+      <div class="bg-red-900 rounded-lg p-6 shadow-lg hover:bg-red-700 transition duration-300">
+        <div class="mb-4 text-red-400 text-5xl">
+          &#128138; <!-- pill icon -->
+        </div>
+        <h3 class="text-2xl font-bold mb-2">Drug Abuse Counseling</h3>
+        <p>Professional support and recovery programs to help individuals overcome drug addiction.</p>
+      </div>
+
+      <div class="bg-red-900 rounded-lg p-6 shadow-lg hover:bg-red-700 transition duration-300">
+        <div class="mb-4 text-red-400 text-5xl">
+          &#128101; <!-- group icon -->
+        </div>
+        <h3 class="text-2xl font-bold mb-2">Community Outreach</h3>
+        <p>Engaging with communities to raise awareness and provide direct assistance to those in need.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+        <!-- Donation Section -->
+        <section id="donate" class="py-16 bg-white animate-slide-in" role="region" aria-label="Donation">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-4">Make a <span class="text-[var(--primary-color)]">Donation</span></h2>
+                <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
+                <div class="max-w-md mx-auto">
+                    <form id="donation-form" class="space-y-4" action="/My%20Website/php/submit_donation.php" method="POST" novalidate>
+                        <input type="hidden" name="csrf_token" value="DUMMY_CSRF_TOKEN">
+                        <div>
+                            <label for="donation-name" class="sr-only">Full Name</label>
+                            <input type="text" id="donation-name" name="name" placeholder="Full Name" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Full name">
+                            <div class="error-message text-red-600 text-sm mt-1 hidden" id="name-error" role="alert"></div>
+                        </div>
+                        <div>
+                            <label for="donation-email" class="sr-only">Email</label>
+                            <input type="email" id="donation-email" name="email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Email address">
+                            <div class="error-message text-red-600 text-sm mt-1 hidden" id="email-error" role="alert"></div>
+                        </div>
+                        <div>
+                            <label for="donation-amount" class="sr-only">Donation Amount</label>
+                            <select id="donation-amount" name="amount" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Donation amount">
+                                <option value="" disabled selected>Select Amount (ZAR)</option>
+                                <option value="50">R50</option>
+                                <option value="100">R100</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                            <div class="error-message text-red-600 text-sm mt-1 hidden" id="amount-error" role="alert"></div>
+                        </div>
+                        <div>
+                            <label for="custom-amount" class="sr-only">Custom Amount</label>
+                            <input type="number" id="custom-amount" name="custom-amount" placeholder="Custom Amount" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] hidden" min="1" aria-label="Custom donation amount">
+                            <div class="error-message text-red-600 text-sm mt-1 hidden" id="custom-amount-error" role="alert"></div>
+                        </div>
+                        <button type="submit" class="w-full p-3 bg-[var(--primary-color)] text-gray-900 rounded-md hover:bg-red-600 transition-colors font-semibold" aria-label="Submit donation">Donate</button>
+                        <div class="success-message bg-green-500 text-white p-3 rounded-md hidden" id="donation-success" role="alert"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="donation-progress" class="py-16 bg-white" role="region" aria-label="Donation Progress">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-4">Our <span class="text-[var(--primary-color)]">Fundraising Goal</span></h2>
+        <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
+        <div class="max-w-lg mx-auto">
+            <p class="text-center mb-4">Help us reach R50,000 to support our programs!</p>
+            <div class="w-full bg-gray-200 rounded-full h-6">
+                <div id="progress-bar" class="bg-[var(--primary-color)] h-6 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <p class="text-center mt-2 font-semibold" id="progress-text">R0 raised of R50,000</p>
+        </div>
+    </div>
+</section>
+
+        <!-- Volunteer Section -->
+<section id="volunteer" class="py-16 bg-gray-100 animate-slide-in" role="region" aria-label="Volunteer">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-4">Become a <span class="text-[var(--primary-color)]">Volunteer</span></h2>
+        <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
+        <div class="max-w-md mx-auto">
+            <form id="volunteer-form" action="/My%20Website/php/volunteer_process.php" method="POST" class="space-y-4" novalidate>
+                <div>
+                    <label for="volunteer-name" class="sr-only">Full Name</label>
+                    <input type="text" id="volunteer-name" name="name" placeholder="Full Name" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Full name">
+                    <div class="error-message text-red-600 text-sm mt-1 hidden" id="volunteer-name-error" role="alert"></div>
+                </div>
+                <div>
+                    <label for="volunteer-email" class="sr-only">Email</label>
+                    <input type="email" id="volunteer-email" name="email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Email address">
+                    <div class="error-message text-red-600 text-sm mt-1 hidden" id="volunteer-email-error" role="alert"></div>
+                </div>
+                <div>
+                    <label for="volunteer-phone" class="sr-only">Phone</label>
+                    <input type="tel" id="volunteer-phone" name="phone" placeholder="Phone" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Phone number">
+                    <div class="error-message text-red-600 text-sm mt-1 hidden" id="phone-error" role="alert"></div>
+                </div>
+                <button type="submit" class="w-full p-3 bg-[var(--primary-color)] text-gray-900 rounded-md hover:bg-red-600 transition-colors font-semibold" aria-label="Sign up as volunteer">Sign Up</button>
+                <div class="success-message bg-green-500 text-white p-3 rounded-md hidden" id="volunteer-success" role="alert"></div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 section-bg animate-fade-in" style="background: url('../Images/contact-bg.jpg') center/cover no-repeat fixed, var(--bg-fallback);" role="region" aria-label="Contact">
+            <div class="container mx-auto px-4">
+                <h2 class="text-5xl font-extrabold text-center mb-4 text-[var(--secondary-color)] text-shadow">Get in <span class="text-[var(--primary-color)]">Touch</span></h2>
+                <div class="w-32 h-1 bg-[var(--primary-color)] mx-auto mb-8"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="card bg-[var(--secondary-color)] p-8 rounded-2xl shadow-lg animate-zoom-in">
+                        <h3 class="text-3xl font-bold mb-4">Contact Information</h3>
+                        <p class="mb-4 text-lg">Email: <a href="mailto:kopanomanyano51@gmail.com" class="text-[var(--primary-color)] hover:text-red-600 no-scale">kopanomanyano51@gmail.com</a></p>
+                        <p class="mb-4 text-lg">Phone: <a href="tel:+27 87 265 1327" class="text-[var(--primary-color)] hover:text-red-600 no-scale">+27 12 306 0670</a></p>
+                        <p class="mb-4 text-lg">Address: 217 Pretorius Street, Pretoria, 0001</p>
+                    </div>
+                    <div>
+                        <form id="contact-form" class="space-y-6 card bg-[var(--secondary-color)] p-8 rounded-2xl shadow-lg" action="/My%20Website/php/submit_contact.php" method="POST" novalidate>
+                            <input type="hidden" name="csrf_token" value="DUMMY_CSRF_TOKEN">
+                            <div class="animate-zoom-in" style="animation-delay: 0.1s;">
+                                <label for="contact-name" class="sr-only">Full Name</label>
+                                <input type="text" id="contact-name" name="name" placeholder="Full Name" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Full name">
+                                <div class="error-message text-[var(--primary-color)] text-sm mt-1 hidden" id="contact-name-error" role="alert"></div>
+                            </div>
+                            <div class="animate-zoom-in" style="animation-delay: 0.2s;">
+                                <label for="contact-email" class="sr-only">Email</label>
+                                <input type="email" id="contact-email" name="email" placeholder="Email" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Email address">
+                                <div class="error-message text-[var(--primary-color)] text-sm mt-1 hidden" id="contact-email-error" role="alert"></div>
+                            </div>
+                            <div class="animate-zoom-in" style="animation-delay: 0.3s;">
+                                <label for="contact-message" class="sr-only">Message</label>
+                                <textarea id="contact-message" name="message" placeholder="Your Message" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" rows="5" required aria-label="Message"></textarea>
+                                <div class="error-message text-[var(--primary-color)] text-sm mt-1 hidden" id="contact-message-error" role="alert"></div>
+                            </div>
+                            <button type="submit" class="w-full p-4 bg-[var(--primary-color)] text-[var(--secondary-color)] rounded-lg hover:bg-red-600 transition-colors font-bold animate-zoom-in" style="animation-delay: 0.4s;" aria-label="Send message">Send Message</button>
+                            <div class="success-message bg-green-500 text-[var(--secondary-color)] p-3 rounded-lg hidden" id="contact-success" role="alert"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    
+    <section id="newsletter" class="py-16 bg-[var(--primary-color)] text-white" role="region" aria-label="Newsletter Signup">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-4">Stay <span class="text-gray-900">Connected</span></h2>
+        <div class="w-20 h-1 bg-gray-900 mx-auto mb-6"></div>
+        <div class="max-w-md mx-auto">
+            <form id="newsletter-form" action="/My%20Website/php/submit_newsletter.php" method="POST" class="space-y-4" novalidate>
+                <input type="hidden" name="csrf_token" id="newsletter-csrf">
+                <div>
+                    <label for="newsletter-email" class="sr-only">Email</label>
+                    <input type="email" id="newsletter-email" name="email" placeholder="Your Email" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900" required aria-label="Email address">
+                    <div class="error-message text-gray-900 text-sm mt-1 hidden" id="newsletter-email-error" role="alert"></div>
+                </div>
+                <button type="submit" class="w-full p-3 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors font-semibold" aria-label="Subscribe to newsletter">Subscribe</button>
+                <div class="success-message bg-green-500 text-white p-3 rounded-md hidden" id="newsletter-success" role="alert"></div>
+            </form>
+        </div>
+    </div>
+</section>
+
+    <!-- Footer Section -->
+    <footer class="bg-[var(--secondary-color)] text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Kopano Manyano</h3>
+                    <p>Providing shelter, food, and support to empower homeless individuals in Gauteng.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="About Us.html" class="hover:text-[var(--primary-color)] transition-colors">More About Kopano Manyano</a></li>
+                        <li><a href="Volunteer.html" class="hover:text-[var(--primary-color)] transition-colors">Volunteer</a></li>
+                        <li><a href="Contact Us.html" class="hover:text-[var(--primary-color)] transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="https://x.com/catherinemogal1" class="text-2xl hover:text-[var(--primary-color)] transition-colors" aria-label="Follow us on X"><i class="fab fa-x"></i></a>
+                        <a href="https://www.facebook.com/share/1D1CozKDnV/?mibextid=wwXIfr" class="text-2xl hover:text-[var(--primary-color)] transition-colors" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center mt-8">© 2025 Kopano Manyano God the FOunder Center for Homeless. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center" id="lightbox" role="dialog" aria-label="Image lightbox">
+        <button class="lightbox-close absolute top-4 right-4 text-white text-2xl cursor-pointer" aria-label="Close lightbox">×</button>
+        <img src="" alt="Lightbox image" id="lightbox-image" class="max-w-[90%] max-h-[90%] rounded-lg">
+    </div>
+
+    <script src="../jss/Home Page.js"></script>
+</button>
+</body>
+</html>

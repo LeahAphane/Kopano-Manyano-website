@@ -1,0 +1,134 @@
+/* Background Image for Body */
+body {
+    background-image: url('../Images/center.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    margin: 0;
+}
+
+/* Semi-transparent Overlay to allow background to show through */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.3); /* More transparent to reveal background */
+    z-index: 0;
+}
+
+
+
+/* Ensure content appears above background/overlay */
+header, main, footer {
+    position: relative;
+    z-index: 1;
+}
+
+/* Smooth Scroll */
+.smooth-scroll {
+    scroll-behavior: smooth;
+}
+
+/* Slide In Animation */
+.animate-slide-in {
+    animation: slideIn 0.8s ease-out forwards;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Navigation Dropdown Styles */
+.nav-menu li {
+    position: relative;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #1f2937;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 0.5rem 0;
+    z-index: 10;
+}
+
+.dropdown li {
+    width: 200px;
+}
+
+.dropdown li a {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: white;
+    font-weight: 500;
+}
+
+.dropdown li a:hover {
+    background: #ef4444;
+    color: #111827;
+}
+
+.nav-menu li:hover .dropdown {
+    display: block;
+}
+
+/* Mobile Dropdown Toggle */
+.nav-menu li.services-menu.active .dropdown {
+    display: block;
+    position: static;
+    background: rgba(31, 41, 55, 0.95);
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.nav-menu li.services-menu.active .dropdown li a {
+    color: white;
+    padding: 0.5rem 1rem;
+}
+
+/* Mobile Navigation Styles */
+@media (max-width: 768px) {
+    .nav-menu {
+        background: rgba(31, 41, 55, 0.95) !important;
+    }
+
+    .nav-menu li a {
+        color: white !important;
+        border-color: #ef4444 !important;
+    }
+
+    .nav-menu li a:hover {
+        background: #ef4444 !important;
+        color: #111827 !important;
+    }
+}
+
+.logo {
+    margin: 1rem 0 1.5rem 1rem; /* top, right, bottom, left spacing */
+    text-align: left;
+}
+
+.logo img {
+    width: 8rem;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    -webkit-transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    .logo img {
+        width: 6rem;
+    }
+}

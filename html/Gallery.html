@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore the gallery of Kopano Manyano Center's programs and initiatives in Gauteng, South Africa.">
+    <meta name="keywords" content="gallery, homeless support, substance abuse, counseling, HIV, youth development, Kopano Manyano">
+    <meta name="author" content="Kopano Manyano Center">
+    <title>Gallery - Kopano Manyano Center for Homeless</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/Gallery.css">
+
+
+    </head>
+<body class="font-['Inter'] text-gray-900 smooth-scroll flex flex-col min-h-screen">
+</div>
+
+    <div class="overlay"></div>
+
+    <header class="bg-gradient-to-r from-red-600 to-gray-800 text-white fixed w-full top-0 z-50 shadow-lg transition-all duration-300" aria-label="Main navigation">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="logo">
+                <a href="Home Page.html" aria-label="Kopano Manyano Home"><img src="../Images/LOGO.jpeg" alt="Kopano Manyano Center Logo"></a>
+            </div>
+            <nav class="flex items-center" role="navigation">
+                <button class="hamburger md:hidden text-2xl bg-none border-none" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu"><i class="fas fa-bars"></i></button>
+                <ul class="nav-menu hidden md:flex space-x-4 bg-gray-900 md:bg-transparent absolute md:static top-16 left-0 w-full md:w-auto p-4 md:p-0 transition-all duration-300" id="nav-menu">
+                    <li><a href="Home Page.html" class="px-4 py-2 border-2 border-red-500 rounded-full hover:bg-red-500 hover:text-white font-semibold transition-colors" aria-label="Home">Home</a></li>
+                    <li><a href="About Us.html" class="px-4 py-2 border-2 border-red-500 rounded-full hover:bg-red-500 hover:text-white font-semibold transition-colors" aria-label="About">About</a></li>
+                    <li class="services-menu">
+                        <a href="services.html" class="px-4 py-2 border-2 border-red-500 rounded-full hover:bg-red-500 hover:text-white font-semibold transition-colors" aria-label="Services">Services</a>
+                        <ul class="dropdown">
+                            <li><a href="Events.html" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-white transition-colors" aria-label="Events">Events</a></li>
+                            <li><a href="Food Assistance.html" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-white transition-colors" aria-label="Food Assistance">Food Assistance</a></li>
+                            <li><a href="Volunteer.html" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-white transition-colors" aria-label="Volunteer">Volunteer</a></li>
+                            <li><a href="shelter programs.html" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-white transition-colors" aria-label="Shelter Program">Shelter Program</a></li>
+                            <li><a href="Community Engagement.html" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-white transition-colors" aria-label="Community Engagement">Community Engagement</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="Volunteer.html" class="px-4 py-2 border-2 border-red-500 rounded-full hover:bg-red-500 hover:text-white font-semibold transition-colors" aria-label="Get Involved">Get Involved</a></li>
+                    <li><a href="Donate.html" class="px-4 py-2 border-2 border-red-500 rounded-full hover:bg-red-500 hover:text-white font-semibold transition-colors" aria-label="Donate">Donate</a></li>
+                    <li><a href="Contact.html" class="px-4 py-2 border-2 border-red-500 rounded-full hover:bg-red-500 hover:text-white font-semibold transition-colors" aria-label="Contact">Contact</a></li>
+                    <li><a href="Gallery.html" class="px-4 py-2 border-2 border-red-500 rounded-full hover:bg-red-500 hover:text-white font-semibold transition-colors" aria-label="Gallery">Gallery</a></li>
+                </ul>
+                <button class="theme-toggle ml-4 text-2xl" aria-label="Toggle dark theme"><i class="fas fa-moon"></i></button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pt-20 flex-1">
+        <div class="container mx-auto px-4">
+            <!-- Header Section -->
+            <section class="gallery-header" aria-label="Gallery Header">
+                <h1>Our Impact in Pictures</h1>
+                <p>Take a glimpse into the lives you've helped transform through your support.</p>
+            </section>
+
+            <!-- Gallery Navigation -->
+            <nav class="gallery-nav" aria-label="Gallery category navigation">
+                <ul>
+                    <li><button data-filter="all" class="active"><i class="fas fa-th-large"></i> All</button></li>
+                    <li><button data-filter="drug-and-substance"><i class="fas fa-capsules"></i> Drug & Substance</button></li>
+                    <li><button data-filter="homelessness-program"><i class="fas fa-shield-alt"></i> Homelessness</button></li>
+                    <li><button data-filter="substance-abuse"><i class="fas fa-prescription-bottle"></i> Substance Abuse</button></li>
+                    <li><button data-filter="counselling-support"><i class="fas fa-hands-helping"></i> Counselling</button></li>
+                    <li><button data-filter="condom-distribution"><i class="fas fa-shield-virus"></i> Condom Distribution</button></li>
+                    <li><button data-filter="awareness-campaigns"><i class="fas fa-bullhorn"></i> Awareness Campaigns</button></li>
+                    <li><button data-filter="hiv-reintegration"><i class="fas fa-heartbeat"></i> HIV Reintegration</button></li>
+                    <li><button data-filter="community-ministries"><i class="fas fa-pray"></i> Community Ministries</button></li>
+                    <li><button data-filter="youth-development"><i class="fas fa-child"></i> Youth Development</button></li>
+                    <li><button data-filter="youth-capacity"><i class="fas fa-graduation-cap"></i> Youth Capacity</button></li>
+                    <li><button data-filter="hiv-testing"><i class="fas fa-syringe"></i> HIV Testing</button></li>
+                    <li><button data-filter="albinism-awareness"><i class="fas fa-sun"></i> Albinism Awareness</button></li>
+                    <li><button data-filter="selepe-campaign"><i class="fas fa-map-marked-alt"></i> Selepe Campaign</button></li>
+                    <li><button data-filter="success-stories"><i class="fas fa-trophy"></i> Success Stories</button></li>
+                </ul>
+            </nav>
+
+            <!-- Gallery Sections -->
+            <section class="gallery-section" id="drug-and-substance" data-category="drug-and-substance">
+                <h2>Drug and Substance</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="drug-and-substance"><img src="../Images/drs.jpg" alt="Counselor educating a group on drug prevention" aria-label="Drug awareness session image"></div>
+                    <div class="gallery-item" data-category="drug-and-substance"><img src="../Images/dr.jpg" alt="Community members attending a substance abuse workshop" aria-label="Substance abuse workshop image"></div>
+                    <div class="gallery-item" data-category="drug-and-substance"><img src="../Images/drs1.jpg" alt="Volunteer distributing informational pamphlets on substance abuse" aria-label="Pamphlet outreach image"></div>
+                    <div class="gallery-item" data-category="drug-and-substance"><img src="../Images/drs2.jpg" alt="Group therapy session for substance abuse recovery" aria-label="Group therapy session image"></div>
+                </div>
+            </section>
+
+            <section class="gallery-section" id="homelessness-program" data-category="homelessness-program">
+                <h2>Homelessness Program</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="homelessness-program"><img src="../Images/HOMELESSNESS   PROGRAM.jpg" alt="Shelter providing beds for homeless individuals" aria-label="Shelter opening image"></div>
+                    <div class="gallery-item" data-category="homelessness-program"><img src="../Images/HOMELESSNESS   PROGRAM1.jpg" alt="Volunteers distributing blankets to homeless people" aria-label="Blanket donation image"></div>
+                    <div class="gallery-item" data-category="homelessness-program"><img src="../Images/HOMELESSNESS   PROGRAM2.jpg" alt="Community meal service for homeless individuals" aria-label="Community meal service image"></div>
+                    <div class="gallery-item" data-category="homelessness-program"><img src="../Images/HOMELESSNESS   PROGRAM3.jpg" alt="Counseling session for homeless youth" aria-label="Youth counseling image"></div>
+                </div>
+            </section>
+
+            <section class="gallery-section" id="substance-abuse" data-category="substance-abuse">
+                <h2>Substance Abuse</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="substance-abuse"><img src="../Images/SUBSTANCE ABUSE.jpg" alt="Support group meeting for substance abuse recovery" aria-label="Support group meeting image"></div>
+                    <div class="gallery-item" data-category="substance-abuse"><img src="../Images/SUBSTANCE ABUSE1.jpg" alt="Therapist conducting a substance abuse session" aria-label="Therapy session image"></div>
+                    <div class="gallery-item" data-category="substance-abuse"><img src="../Images/SUBSTANCE ABUSE2.jpg" alt="Community outreach on substance abuse prevention" aria-label="Community outreach image"></div>
+                    <div class="gallery-item" data-category="substance-abuse"><img src="../Images/SUBSTANCE ABUSE3.jpg" alt="Participants in a rehabilitation program" aria-label="Rehabilitation program image"></div>
+                </div>
+            </section>
+
+            <section class="gallery-section" id="counselling-support" data-category="counselling-support">
+                <h2>Counselling, Support, and Victim Support Services for Abused Women and Children</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="counselling-support"><img src="../Images/counselling1.jpg" alt="Counselor supporting an abused woman" aria-label="Counseling for abused women image"></div>
+                    <div class="gallery-item" data-category="counselling-support"><img src="../Images/counselling2.jpg" alt="Group therapy for abused children" aria-label="Group therapy for children image"></div>
+                    <div class="gallery-item" data-category="counselling-support"><img src="../Images/counselling3.jpg" alt="Victim support team assisting a family" aria-label="Victim support image"></div>
+                    <div class="gallery-item" data-category="counselling-support"><img src="../Images/counselling4.jpg" alt="Counseling workshop for women" aria-label="Counseling workshop image"></div>
+                    <div class="gallery-item" data-category="counselling-support"><img src="../Images/counselling5.jpg" alt="Support group for survivors" aria-label="Survivor support group image"></div>
+                    <div class="gallery-item" data-category="counselling-support"><img src="../Images/counselling6.jpg" alt="Children receiving emotional support" aria-label="Emotional support for children image"></div>
+                    <div class="gallery-item" data-category="counselling-support"><img src="../Images/counselling7.jpg" alt="Counselor training session" aria-label="Counselor training image"></div>
+                    <div class="gallery-item" data-category="counselling-support"><img src="../Images/counselling8.jpg" alt="Community outreach for victim support" aria-label="Community outreach for victims image"></div>
+                    <div class="gallery-item" data-category="counselling-support"><img src="../Images/counselling9.jpg" alt="Family counseling session" aria-label="Family counseling image"></div>
+                </div>
+            </section>
+
+            <section class="gallery-section" id="condom-distribution" data-category="condom-distribution">
+                <h2>High Transmission Areas / Condom Distribution</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="condom-distribution"><img src="../Images/CDM.jpg" alt="Volunteer distributing condoms in a high-risk area" aria-label="Condom distribution image"></div>
+                    <div class="gallery-item" data-category="condom-distribution"><img src="../Images/CDM1.jpg" alt="Health worker educating on safe practices" aria-label="Safe practices workshop image"></div>
+                    <div class="gallery-item" data-category="condom-distribution"><img src="../Images/CDM2.jpg" alt="Community event for condom distribution" aria-label="Condom distribution event image"></div>
+                    <div class="gallery-item" data-category="condom-distribution"><img src="../Images/CDM3.jpg" alt="Distribution point in a rural area" aria-label="Rural condom distribution image"></div>
+                    <div class="gallery-item" data-category="condom-distribution"><img src="../Images/CDM4.jpg" alt="Health outreach team at work" aria-label="Health outreach image"></div>
+                </div>
+            </section>
+
+            <section class="gallery-section" id="awareness-campaigns" data-category="awareness-campaigns">
+                <h2>Awareness Campaigns / TB / STI Education</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="awareness-campaigns"><img src="../Images/HIV REINTEGRATION.jpg" alt="Community awareness campaign on TB" aria-label="TB awareness campaign image"></div>
+                    <div class="gallery-item" data-category="awareness-campaigns"><img src="../Images/HIV REINTEGRATION1.jpg" alt="STI education session for youth" aria-label="STI education image"></div>
+                    <div class="gallery-item" data-category="awareness-campaigns"><img src="../Images/HIV REINTEGRATION2.jpg" alt="Health workers conducting an awareness walk" aria-label="Awareness walk image"></div>
+                    <div class="gallery-item" data-category="awareness-campaigns"><img src="../Images/HIV REINTEGRATION3.jpg" alt="Community meeting on disease prevention" aria-label="Disease prevention meeting image"></div>
+                    <div class="gallery-item" data-category="awareness-campaigns"><img src="../Images/HIV REINTEGRATION4.jpg" alt="Poster campaign on STI awareness" aria-label="STI awareness poster image"></div>
+                </div>
+            </section>
+
+            <section class="gallery-section" id="hiv-reintegration" data-category="hiv-reintegration">
+                <h2>HIV Reintegration (Health Post) and Home Base Care Program</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="hiv-reintegration"><img src="../Images/ST.jpg" alt="Health post supporting HIV reintegration" aria-label="HIV reintegration health post image"></div>
+                    <div class="gallery-item" data-category="hiv-reintegration"><img src="../Images/ST1.jpg" alt="Home care visit for HIV patients" aria-label="HIV home care image"></div>
+                    <div class="gallery-item" data-category="hiv-reintegration"><img src="../Images/ST2.jpg" alt="Community support for HIV reintegration" aria-label="Community HIV support image"></div>
+                    <div class="gallery-item" data-category="hiv-reintegration"><img src="../Images/ST3.jpg" alt="Training session for HIV caregivers" aria-label="HIV caregiver training image"></div>
+                    <div class="gallery-item" data-category="hiv-reintegration"><img src="../Images/ST4.jpg" alt="HIV reintegration workshop" aria-label="HIV reintegration workshop image"></div>
+                </div>
+            </section>
+
+            <section class="gallery-section" id="community-ministries" data-category="community-ministries">
+                <h2>Kopano Manyano God the Founder Community Ministries</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="community-ministries"><img src="../Images/KPM.jpg" alt="Community prayer meeting" aria-label="Community prayer image"></div>
+                    <div class="gallery-item" data-category="community-ministries"><img src="../Images/KPM1.jpg" alt="Ministries outreach event" aria-label="Ministries outreach image"></div>
+                    <div class="gallery-item" data-category="community-ministries"><img src="../Images/KPM2.jpg" alt="Community service project" aria-label="Community service project image"></div>
+                    <div class="gallery-item" data-category="community-ministries"><img src="../Images/KPM3.jpg" alt="Ministries training session" aria-label="Ministries training image"></div>
+                    <div class="gallery-item" data-category="community-ministries"><img src="../Images/KPM4.jpg" alt="Community gathering" aria-label="Community gathering image"></div>
+                </div>
+            </section>
+
+            <section class="gallery-section" id="youth-development" data-category="youth-development">
+                <h2>Youth Development / Carers / Volunteers</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="youth-development"><img src="../Images/YD.jpg" alt="Youth training session" aria-label="Youth training image"></div>
+                    <div class="gallery-item" data-category="youth-development"><img src="../Images/YD1.jpg" alt="Volunteers mentoring youth" aria-label="Volunteer mentorship image"></div>
+                    <div class="gallery-item" data-category="youth-development"><img src="../Images/YD2.jpg" alt="Youth skills workshop" aria-label="Youth skills workshop image"></div>
+                    <div class="gallery-item" data-category="youth-development"><img src="../Images/YD3.jpg" alt="Community youth event" aria-label="Community youth event image"></div>
+                    <div class="gallery-item" data-category="youth-development"><img src="../Images/YD4.jpg" alt="Youth leadership program" aria-label="Youth leadership program image"></div>
+                    
+                </div>
+            </section>
+
+            <section class="gallery-section" id="youth-capacity" data-category="youth-capacity">
+                <h2>Youth Capacity Building / Skills Development</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="youth-capacity"><img src="../Images/YD5.jpg" alt="Youth capacity building workshop" aria-label="Capacity building workshop image"></div>
+                    <div class="gallery-item" data-category="youth-capacity"><img src="../Images/YD6.jpg" alt="Skills training for youth" aria-label="Youth skills training image"></div>
+                    <div class="gallery-item" data-category="youth-capacity"><img src="../Images/YD8.jpg" alt="Youth entrepreneurship session" aria-label="Youth entrepreneurship image"></div>
+                    <div class="gallery-item" data-category="youth-capacity"><img src="../Images/YD9.jpg" alt="Youth skills development program" aria-label="Skills development program image"></div>
+                </div>
+            </section>
+
+            <section class="gallery-section" id="hiv-testing" data-category="hiv-testing">
+                <h2>HIV/AIDS Testing and Counselling</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="hiv-testing"><img src="../Images/HIV TENT.jpg" alt="HIV testing tent setup" aria-label="HIV testing tent image"></div>
+                    <div class="gallery-item" data-category="hiv-testing"><img src="../Images/HIV TENT1.jpg" alt="Health worker conducting HIV test" aria-label="HIV testing session image"></div>
+                    <div class="gallery-item" data-category="hiv-testing"><img src="../Images/HIV TENT2.jpg" alt="Community HIV counseling event" aria-label="HIV counseling event image"></div>
+                    <div class="gallery-item" data-category="hiv-testing"><img src="../Images/HIV TENT3.jpg" alt="Mobile HIV testing unit" aria-label="Mobile HIV testing image"></div>
+                </div>
+            </section>
+
+            <section class="gallery-section" id="albinism-awareness" data-category="albinism-awareness">
+                <h2>Albinism Awareness Campaign</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="albinism-awareness"><img src="../Images/ALBINISM.jpg" alt="Awareness event for albinism" aria-label="Albinism awareness event image"></div>
+                    <div class="gallery-item" data-category="albinism-awareness"><img src="../Images/ALBINISM1.jpg" alt="Community education on albinism" aria-label="Albinism education image"></div>
+                    <div class="gallery-item" data-category="albinism-awareness"><img src="../Images/ALBINISM2.jpg" alt="Albinism support group meeting" aria-label="Albinism support group image"></div>
+                    <div class="gallery-item" data-category="albinism-awareness"><img src="../Images/ALBINISM3.jpg" alt="Awareness walk for albinism" aria-label="Albinism awareness walk image"></div>
+                    <div class="gallery-item" data-category="albinism-awareness"><img src="../Images/ALBINISM4.jpg" alt="Poster campaign for albinism awareness" aria-label="Albinism poster campaign image"></div>
+                </div>
+            </section>
+
+            <section class="gallery-section" id="selepe-campaign" data-category="selepe-campaign">
+                <h2>Awareness Campaign Selepe Rural Area</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="selepe-campaign"><img src="../Images/RURAL.jpg" alt="Rural awareness campaign in Selepe" aria-label="Selepe rural campaign image"></div>
+                    <div class="gallery-item" data-category="selepe-campaign"><img src="../Images/RURAL1.jpg" alt="Community meeting in Selepe rural area" aria-label="Selepe community meeting image"></div>
+                    <div class="gallery-item" data-category="selepe-campaign"><img src="../Images/RURAL2.jpg" alt="Health outreach in Selepe" aria-label="Selepe health outreach image"></div>
+                    <div class="gallery-item" data-category="selepe-campaign"><img src="../Images/RURAL3.jpg" alt="Education session in Selepe rural area" aria-label="Selepe education session image"></div>
+                    <div class="gallery-item" data-category="selepe-campaign"><img src="../Images/RURAL4.jpg" alt="Rural health campaign in Selepe" aria-label="Selepe rural health campaign image"></div>
+                    <div class="gallery-item" data-category="selepe-campaign"><img src="../Images/RURAL5.jpg" alt="Community support in Selepe rural area" aria-label="Selepe community support image"></div>
+                </div>
+            </section>
+
+            <section class="gallery-section" id="success-stories" data-category="success-stories">
+                <h2>Success Stories Daily Sun Pictures</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="success-stories"><img src="../Images/succcess story.jpg" alt="Thabo celebrating employment success" aria-label="Thabo's success story image"></div>
+                    <div class="gallery-item" data-category="success-stories"><img src="../Images/success story 2.jpg" alt="Sarah recognized for volunteer work" aria-label="Sarah's volunteer impact image"></div>
+                    <div class="gallery-item" data-category="success-stories"><img src="../Images/success story3.jpg" alt="Lerato launching her business" aria-label="Lerato's business launch image"></div>
+                    <div class="gallery-item" data-category="success-stories"><img src="../Images/success story4.jpg" alt="Community celebrating a success story" aria-label="Community success celebration image"></div>
+                    <div class="gallery-item" data-category="success-stories"><img src="../Images/success story 8.jpg" alt="Youth achieving educational goals" aria-label="Youth educational milestone image"></div>
+                    <div class="gallery-item" data-category="success-stories"><img src="../Images/success story 7.jpg" alt="Family reunited through support" aria-label="Family reunion success image"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" role="dialog" aria-label="Image lightbox">
+        <button class="lightbox-close" aria-label="Close lightbox"><i class="fas fa-times"></i></button>
+        <button class="lightbox-prev" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
+        <button class="lightbox-next" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
+        <div id="lightbox-content" style="position: relative; text-align: center;">
+            <img src="" alt="Enlarged gallery image" id="lightbox-image">
+            <p id="lightbox-caption"></p>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#top" class="back-to-top" aria-label="Back to top"><i class="fas fa-chevron-up"></i></a>
+
+   <!-- Footer Section -->
+    <footer class="bg-[var(--secondary-color)] text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Kopano Manyano</h3>
+                    <p>Providing shelter, food, and support to empower homeless individuals in Gauteng.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="About Us.html" class="hover:text-[var(--primary-color)] transition-colors">More About Kopano Manyano</a></li>
+                        <li><a href="Volunteer.html" class="hover:text-[var(--primary-color)] transition-colors">Volunteer</a></li>
+                        <li><a href="Contact Us.html" class="hover:text-[var(--primary-color)] transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="https://x.com/catherinemogal1" class="text-2xl hover:text-[var(--primary-color)] transition-colors" aria-label="Follow us on X"><i class="fab fa-x"></i></a>
+                        <a href="https://www.facebook.com/share/1D1CozKDnV/?mibextid=wwXIfr" class="text-2xl hover:text-[var(--primary-color)] transition-colors" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center mt-8">© 2025 Kopano Manyano God the Founder Center for Homeless. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center" id="lightbox" role="dialog" aria-label="Image lightbox">
+        <button class="lightbox-close absolute top-4 right-4 text-white text-2xl cursor-pointer" aria-label="Close lightbox">×</button>
+        <img src="" alt="Lightbox image" id="lightbox-image" class="max-w-[90%] max-h-[90%] rounded-lg">
+    </div>
+
+
+
+
+
+
+<script src="../jss/Gallery.js"></script>
+
+</body>
+</html>
+
+

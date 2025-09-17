@@ -1,0 +1,115 @@
+:root {
+            --primary-color: #ef4444; /* Red */
+            --white: #ffffff; /* White */
+            --black: #000000; /* Black for font */
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; /* Prevent scrolling */
+        }
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: url("../Images/Hand.jpg") no-repeat center center/cover;
+            z-index: 0;
+        }
+        .welcome-container {
+            position: relative;
+            z-index: 1;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .logo img {
+            width: 8rem;
+            height: auto;
+            border-radius: 8px;
+            background: var(--white); /* White background for logo */
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+        }
+.content-box {
+    background: rgba(255, 255, 255, 0.4); /* More transparent white */
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 90%;
+}
+
+
+        .typewriter h1 {
+            overflow: hidden;
+            border-right: .15em solid var(--primary-color); /* Red cursor */
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: typing 3.5s steps(75, end), blink-caret .75s step-end infinite;
+            color: var(--black);
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--primary-color); }
+        }
+        p {
+            color: var(--black);
+            font-size: 1.25rem;
+            margin: 1rem 0;
+        }
+        .quote {
+            color: var(--black);
+            font-family: 'Sacramento', cursive;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+        .enter-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 9999px;
+            font-weight: 600;
+            color: var(--white);
+            background: var(--primary-color);
+            text-decoration: none;
+            transition: background 0.3s, color 0.3s;
+        }
+        .enter-btn:hover {
+            background: var(--white);
+            color: var(--primary-color);
+        }
+        @media (max-width: 768px) {
+            .logo img {
+                width: 6rem;
+            }
+            .content-box {
+                padding: 1rem;
+            }
+            .typewriter h1 {
+                font-size: 2rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .quote {
+                font-size: 1.25rem;
+            }
+        }

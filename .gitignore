@@ -1,0 +1,18 @@
+# Composer / PHP
+/vendor/
+/composer.lock
+
+# Environment / logs
+.env
+*.log
+
+# Node / build (if present)
+node_modules/
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
+
+# Build artifacts & archives
+*.zip

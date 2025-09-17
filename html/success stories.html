@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Kopano Manyano Success Stories - Empowering lives through food, shelter, and support in Gauteng." />
+  <title>Success Stories | Kopano Manyano</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="../js/slider.js" defer></script>
+</head>
+
+<body class="font-sans text-gray-900 bg-white">
+
+  <!-- Navigation -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="index.html" class="text-xl font-bold text-[var(--primary-color)]">Kopano Manyano</a>
+      <nav class="space-x-6">
+        <a href="index.html" class="hover:text-[var(--primary-color)]">Home</a>
+        <a href="mission.html" class="hover:text-[var(--primary-color)]">Our Mission</a>
+        <a href="stories.html" class="text-[var(--primary-color)] font-semibold">Success Stories</a>
+        <a href="gallery.html" class="hover:text-[var(--primary-color)]">Gallery</a>
+        <a href="contact.html" class="hover:text-[var(--primary-color)]">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="bg-[var(--primary-color)] text-white py-20 text-center">
+    <div class="container mx-auto px-4">
+      <h1 class="text-4xl md:text-5xl font-bold">Stories That Inspire</h1>
+      <p class="mt-4 text-lg md:text-xl">Discover how lives are changing at Kopano Manyano</p>
+    </div>
+  </section>
+
+  <!-- Success Slider Section -->
+  <section id="success-stories" class="py-16 bg-white" role="region" aria-label="Success Stories">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-4">Some of Our <span class="text-[var(--primary-color)]">Success Stories</span></h2>
+      <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
+
+      <div class="success-slider relative overflow-hidden">
+        <div class="slider-container flex transition-transform duration-500 ease-in-out">
+          <div class="slide w-full md:w-1/2 lg:w-1/3 p-2">
+            <video controls class="rounded-lg shadow-md w-full">
+              <source src="../Videos/Feeding.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div class="slide w-full md:w-1/2 lg:w-1/3 p-2">
+            <video controls class="rounded-lg shadow-md w-full">
+              <source src="../Videos/Feeding1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div class="slide w-full md:w-1/2 lg:w-1/3 p-2">
+            <img src="../Images/feed1.jpg" alt="Volunteers distributing meals" class="rounded-lg shadow-md w-full" loading="lazy">
+          </div>
+          <div class="slide w-full md:w-1/2 lg:w-1/3 p-2">
+            <img src="../Images/giving food 2.jpg" alt="Community support" class="rounded-lg shadow-md w-full" loading="lazy">
+          </div>
+          <div class="slide w-full md:w-1/2 lg:w-1/3 p-2">
+            <img src="../Images/giving food5.jpg" alt="Street food assistance" class="rounded-lg shadow-md w-full" loading="lazy">
+          </div>
+        </div>
+
+        <button class="slider-btn prev absolute top-1/2 left-4 transform -translate-y-1/2 bg-white text-[var(--primary-color)] p-2 rounded-full shadow-md" aria-label="Previous">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="slider-btn next absolute top-1/2 right-4 transform -translate-y-1/2 bg-white text-[var(--primary-color)] p-2 rounded-full shadow-md" aria-label="Next">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <div class="text-center mt-8">
+        <a href="gallery.html" class="inline-block px-6 py-3 bg-[var(--primary-color)] text-white rounded-full font-semibold hover:bg-red-600 transition-colors">View Full Gallery</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Story Cards Section -->
+  <section class="py-16 bg-gray-50" role="region" aria-label="Stories of Hope">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-4">Stories of <span class="text-[var(--primary-color)]">Hope</span></h2>
+      <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-8"></div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Example Card -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+          <img src="../Images/succcess story.jpg" alt="Thabo's journey" class="w-full h-64 object-cover">
+          <div class="p-4">
+            <h3 class="text-lg font-bold">Thabo's Journey</h3>
+            <p class="text-sm text-gray-700">From hardship to hope with Kopano Manyano.</p>
+            <a href="#thabo-story" class="text-[var(--primary-color)] text-sm mt-2 inline-block hover:underline">Read More</a>
+          </div>
+        </div>
+        <!-- Repeat for each story -->
+        <!-- Add Sarah, Lerato, Sipho, Nomsa, Zanele, Children, Community Kids cards here with similar structure -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[var(--primary-color)] text-white py-6 mt-10">
+    <div class="container mx-auto px-4 text-center">
+      <p>&copy; 2025 Kopano Manyano. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

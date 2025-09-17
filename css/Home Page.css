@@ -1,0 +1,795 @@
+/* Root Variables
+   Defines primary and secondary colors with fallbacks for consistent branding */
+   :root {
+    --primary-color: #ef4444;
+    --secondary-color: #1f2937;
+}
+
+/* Animations
+   Reusable animations for slide-in and fade-in effects */
+.animate-slide-in {
+    animation: slideIn 0.5s ease-out;
+}
+
+.animate-fade-in {
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#page-container {
+    scroll-behavior: smooth;
+}
+
+/* General Page Styling
+   Set default background for the entire page */
+body {
+    background-color: var(--background-color, #fef3e8);
+}
+
+/* Dark Theme
+   Styles for dark mode with smooth transitions */
+.dark-theme {
+    background-color: var(--secondary-color, #1f2937);
+    color: #f9fafb;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-theme .bg-primary-light {
+    background-color: #4b5563;
+}
+
+.dark-theme .bg-secondary-dark {
+    background-color: #1f2937;
+}
+
+.dark-theme .bg-accent-light {
+    background-color: #4b5563;
+}
+
+.dark-theme .bg-white {
+    background-color: #374151;
+}
+
+.dark-theme .bg-gray-50 {
+    background-color: #4b5563;
+}
+
+.dark-theme .bg-gray-100 {
+    background-color: #4b5563;
+}
+
+.dark-theme .text-gray-900 {
+    color: #f9fafb;
+}
+
+.dark-theme .text-white {
+    color: #111827;
+}
+
+.dark-theme .et_pb_button,
+.dark-theme .btn-primary {
+    background-color: #dc2626;
+    color: #f9fafb;
+}
+
+.dark-theme .btn-primary:hover,
+.dark-theme .btn-primary:focus {
+    color: #111827;
+}
+
+/* Reset Tailwind Container
+   Prevent Tailwind's .container from interfering with dropdown */
+.container {
+    z-index: auto !important;
+    pointer-events: auto !important;
+}
+
+/* Header
+   Ensure header is above content but below dropdown */
+header {
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    z-index: 500 !important;
+    pointer-events: auto !important;
+}
+
+header.scrolled {
+    background-color: rgba(239, 68, 68, 0.9);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Top Header */
+#top-header {
+    background: var(--secondary-color, #1f2937);
+    color: white;
+    padding: 0.5rem 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 60;
+}
+
+#top-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#top-header a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#top-header a:hover {
+    color: var(--accent-color, #f97316);
+}
+
+/* Navigation Menu
+   Responsive navigation menu for mobile and desktop */
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    position: fixed;
+    top: 64px;
+    right: 0;
+    height: calc(100vh - 64px);
+    width: 100%;
+    max-width: 300px;
+    background-color: var(--secondary-color, #1f2937);
+    z-index: 600 !important;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    pointer-events: auto !important;
+}
+
+.nav-menu:not(.hidden) {
+    transform: translateX(0);
+}
+
+.nav-menu li {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    pointer-events: auto !important;
+}
+
+@media (min-width: 640px) {
+    .nav-menu li {
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .nav-menu {
+        flex-direction: row;
+        align-items: center;
+        position: static;
+        height: auto;
+        width: auto;
+        max-width: none;
+        background-color: transparent;
+        transform: none;
+    }
+
+    .nav-menu li {
+        margin: 0 0.5rem;
+        padding: 0;
+    }
+}
+
+/* Services Nav Item
+   Ensure parent of dropdown is positioned correctly */
+.services-nav-item {
+    position: relative !important;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+}
+
+/* Dropdown Menu
+   Styles for services dropdown, ensuring clickability */
+.services-dropdown {
+    display: none !important;
+    position: absolute !important;
+    top: 40px !important; /* Adjusted to clear button */
+    left: 0 !important;
+    background-color: #111827 !important;
+    border-radius: 0.5rem !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    width: 200px !important;
+    min-height: 180px !important;
+    z-index: 9999 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    outline: 2px solid blue !important; /* Debug: Blue outline to confirm visibility */
+}
+
+.services-dropdown:not(.hidden) {
+    display: block !important;
+}
+
+.services-dropdown li {
+    display: block !important;
+    width: 100% !important;
+    pointer-events: auto !important;
+}
+
+.services-dropdown a {
+    display: block !important;
+    padding: 0.5rem 1rem !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    transition: background-color 0.3s ease, color 0.3s ease !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    outline: none !important;
+}
+
+.services-dropdown a:hover {
+    background-color: var(--primary-color, #ef4444) !important;
+    color: #111827 !important;
+}
+
+.services-dropdown a:focus {
+    outline: 2px solid yellow !important; /* Debug: Yellow outline on focus */
+}
+
+/* Responsive Dropdown
+   Adjustments for mobile and tablet */
+@media (max-width: 768px) {
+    .services-dropdown {
+        position: static !important;
+        width: 100% !important;
+        min-height: auto !important;
+        background-color: #111827 !important;
+        box-shadow: none !important;
+    }
+
+    .services-dropdown:not(.hidden) {
+        display: block !important;
+    }
+}
+
+/* Button Primary
+   Styling for primary buttons, including Services dropdown button */
+.btn-primary {
+    padding: 0.5rem 1rem !important;
+    border: 2px solid var(--primary-color, #ef4444) !important;
+    border-radius: 9999px !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    transition: background-color 0.3s ease, color 0.3s ease !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    z-index: 9999 !important;
+    outline: none !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color, #ef4444) !important;
+    color: #111827 !important;
+}
+
+.btn-primary:focus {
+    outline: 2px solid yellow !important; /* Debug: Yellow outline on focus */
+}
+
+/* Logo
+   Responsive logo styling for header */
+.logo {
+    width: 6rem;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    -webkit-transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+@media (min-width: 768px) {
+    .logo {
+        width: 8rem;
+    }
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../Images/new_outreach_background.jpg') no-repeat center center/cover;
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    margin-top: 44.8px;
+}
+
+/* Section Backgrounds
+   Custom backgrounds for each section to reduce whiteness */
+#founder-message {
+    background-color: var(--background-color, #fef3e8);
+    border-bottom: 2px solid var(--accent-color, #f97316);
+}
+
+#blurbs {
+    background-color: var(--background-color, #fef3e8);
+}
+
+#what-we-do {
+    background-color: var(--secondary-color, #1f2937);
+    color: white;
+}
+
+#what-we-do .text-gray-800,
+#what-we-do .text-gray-700 {
+    color: #f9fafb;
+}
+
+#what-we-do a {
+    color: var(--accent-color, #f97316);
+}
+
+#what-we-do a:hover {
+    color: var(--primary-color, #ef4444);
+}
+
+#donate-options {
+    background-color: var(--background-color, #fef3e8);
+    border-top: 2px solid var(--primary-color, #ef4444);
+}
+
+/* Success Stories Section with Background Image */
+#success-stories {
+    position: relative;
+    background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('../Images/help.jpg') no-repeat center center/cover;
+    background-size: cover;
+    background-attachment: fixed; /* Optional: keeps image fixed while scrolling */
+    color: var(--text-color, #111827);
+}
+
+#success-stories h2,
+#success-stories p,
+#success-stories a {
+    position: relative;
+    z-index: 1;
+}
+
+/* Stories of Hope Carousel */
+#hope-stories {
+    position: relative;
+    background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('../Images/help.jpg') no-repeat center center/cover;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+#hope-stories h2,
+#hope-stories p,
+#hope-stories a {
+    position: relative;
+    z-index: 1;
+}
+
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: 1rem;
+}
+
+.carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.story-card {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: 16rem; /* 256px */
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 768px) {
+    .story-card {
+        width: 20rem; /* 320px */
+    }
+}
+
+.story-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+.story-card img {
+    width: 100%;
+    height: 16rem; /* 256px */
+    object-fit: cover;
+}
+
+.story-overlay {
+    opacity: 0;
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1rem;
+    color: white;
+    transition: opacity 0.3s ease;
+}
+
+.story-card:hover .story-overlay {
+    opacity: 1;
+}
+
+.story-overlay h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.story-overlay p {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.story-overlay a {
+    color: var(--accent-color, #f97316);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.story-overlay a:hover {
+    text-decoration: underline;
+}
+
+.carousel-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border: 2px solid var(--primary-color, #ef4444);
+    border-radius: 9999px;
+    background-color: white;
+    color: var(--primary-color, #ef4444);
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.carousel-nav:hover,
+.carousel-nav:focus {
+    background-color: var(--primary-color, #ef4444);
+    color: var(--text-color, #111827);
+}
+
+.carousel-nav:focus {
+    outline: 2px solid var(--primary-color, #ef4444);
+    outline-offset: 2px;
+}
+
+.dark-theme .story-card {
+    background-color: #4b5563;
+}
+
+.dark-theme .story-overlay {
+    background-color: rgba(31, 41, 55, 0.6); /* Matches --secondary-color */
+}
+
+.dark-theme .carousel-nav {
+    background-color: #4b5563;
+    color: #f9fafb;
+}
+
+.dark-theme .carousel-nav:hover,
+.dark-theme .carousel-nav:focus {
+    background-color: var(--primary-color, #ef4444);
+    color: #111827;
+}
+
+/* Blurb Cards */
+.blurb-card {
+    text-align: center;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.blurb-card img {
+    width: 100px;
+    height: auto;
+    margin: 0 auto;
+}
+
+/* Service Cards */
+.service-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.service-card:hover {
+    transform: scale(1.05);
+}
+
+.service-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Success Slider */
+.success-slider {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.slider-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slide video {
+    width: 100%;
+    max-width: 800px;
+    height: 450px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.slide img {
+    width: 100%;
+    max-width: 800px;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    z-index: 10;
+}
+
+.slider-btn.prev {
+    left: 10px;
+}
+
+.slider-btn.next {
+    right: 10px;
+}
+
+.slider-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+@media (max-width: 768px) {
+    .slide video,
+    .slide img {
+        height: 300px;
+        max-width: 90%;
+    }
+
+    .slider-btn {
+        padding: 0.75rem;
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .slide video,
+    .slide img {
+        height: 250px;
+    }
+
+    .slider-btn {
+        padding: 0.5rem;
+        font-size: 1rem;
+    }
+}
+
+/* General Section Styling */
+section {
+    padding: 2rem 0;
+}
+
+h2 {
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+a {
+    color: var(--primary-color, #ef4444);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--accent-color, #f97316);
+}
+      /* Animated Gradient Background */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .animate-gradient {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+            background-size: 200% 200%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        /* Particle Effect */
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 10s infinite ease-in-out;
+        }
+        .particle:nth-child(1) { width: 10px; height: 10px; top: 20%; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 15px; height: 15px; top: 50%; left: 30%; animation-delay: 2s; }
+        .particle:nth-child(3) { width: 8px; height: 8px; top: 70%; left: 60%; animation-delay: 4s; }
+        .particle:nth-child(4) { width: 12px; height: 12px; top: 30%; left: 80%; animation-delay: 6s; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); opacity: 0.3; }
+            50% { transform: translateY(-20px); opacity: 0.6; }
+        }
+
+        /* Typewriter Effect */
+        .typewriter {
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 3s steps(40, end) forwards;
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* Slide-Up Animation for Content */
+        .animate-slide-up {
+            animation: slideUp 0.5s ease-out forwards;
+        }
+        .animation-delay-300 { animation-delay: 0.3s; }
+        .animation-delay-600 { animation-delay: 0.6s; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scroll Indicator Bounce */
+        .animate-bounce {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+            40% { transform: translate(-50%, -10px); }
+            60% { transform: translate(-50%, -5px); }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 640px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .hero-content p {
+                font-size: 1rem;
+                max-width: 90%;
+            }
+            .hero-content .btn-primary,
+            .hero-content .btn-secondary {
+                padding: 0.5rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 1.2s ease-out both;
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 10s infinite;
+}
+
+
+/* Mission Section Slideshow Fix */
+#mission-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden;
+}
+
+.mission-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure full coverage */
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.mission-slide.active {
+    opacity: 1;
+    z-index: 1;
+}
+ 

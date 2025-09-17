@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn about Kopano Manyano Center for Homeless, our mission, team, and impact in Gauteng.">
+  <meta name="keywords" content="homeless support, charity, Gauteng, non-profit, about us">
+  <meta name="author" content="Kopano Manyano Center">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#ef4444">
+  <meta property="og:title" content="About Us | Kopano Manyano Center for Homeless">
+  <meta property="og:description" content="Discover our mission to restore dignity and empower homeless individuals in Gauteng.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.kopanomanyano.org/about">
+  <title>About Us | Kopano Manyano Center</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/About Us.css">
+</head>
+<body class="font-sans text-gray-900 bg-gray-50 smooth-scroll">
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-[var(--primary-color)] to-gray-900 text-white fixed w-full top-0 z-50 transition-all duration-300" role="banner" aria-label="Main navigation">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="logo">
+                <a href="#hero" aria-label="Kopano Manyano Home">
+                    <img 
+                         src="../Images/LOGO.jpeg" 
+                         alt="Kopano Manyano Center for Homeless Logo" 
+                         class="logo"
+                         loading="lazy"
+                    />
+                </a>
+            </div>
+            <nav class="flex items-center" role="navigation">
+                <button class="hamburger md:hidden text-2xl bg-none border-none" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu"><i class="fas fa-bars"></i></button>
+                <ul class="nav-menu hidden md:flex space-x-4 bg-gray-900 md:bg-transparent absolute md:static top-16 left-0 w-full md:w-auto p-4 md:p-0 transition-all duration-300" id="nav-menu">
+                    <li><a href="Home Page.html" class="btn-primary" aria-label="Home">Home</a></li>
+                    <li><a href="About Us.html" class="btn-primary" aria-label="About">About</a></li>
+                    <li class="services-nav-item relative">
+                        <button class="btn-primary" aria-label="Services" aria-expanded="false" aria-controls="services-dropdown">Services <i class="fas fa-chevron-down ml-1"></i></button>
+                        <ul class="services-dropdown absolute bg-gray-900 w-48 mt-2 rounded-md shadow-lg hidden" id="services-dropdown" role="menu">
+                            <li><a href="Events.html" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-gray-900 transition-colors" aria-label="Events">Events</a></li>
+                            <li><a href="Food Assistance.html" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-gray-900 transition-colors" aria-label="Food Assistance">Food Assistance</a></li>
+                            <li><a href="Volunteer.html" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-gray-900 transition-colors" aria-label="Volunteer">Volunteer</a></li>
+                            <li><a href="shelter programs.html" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-gray-900 transition-colors" aria-label="Shelter Program">Shelter Program</a></li>
+                            <li><a href="Community Engagement.html" class="block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-gray-900 transition-colors" aria-label="Community Engagement">Community Engagement</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="Volunteer.html" class="btn-primary" aria-label="Get Involved">Get Involved</a></li>
+                    <li><a href="Gallery.html" class="btn-primary" aria-label="Gallery">Gallery</a></li>
+                    <li><a href="Contact Us.html" class="btn-primary" aria-label="Contact">Contact</a></li>
+                    <li><a href="Donate.html" class="btn-primary" aria-label="Donate">Donate</a></li>
+                    <li><a href="Login.html" class="btn-primary inline-block px-4 py-2 text-white hover:bg-[var(--primary-color)] hover:text-gray-900 transition-colors" aria-label="Login">Login</a></li>
+                    <li><a href="Sign Up.html" class="btn-primary" aria-label="Sign Up">Sign Up</a></li>
+                </ul>
+                <button class="theme-toggle ml-4 text-2xl" aria-label="Toggle dark theme"><i class="fas fa-moon"></i></button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Accessibility Skip Link -->
+    <a href="#main-content" class="skip-link absolute left-0 top-0 bg-[var(--primary-color)] text-white px-4 py-2 z-50 focus:translate-y-0 -translate-y-full transition-transform duration-200">Skip to main content</a>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget fixed bottom-4 right-4 bg-[var(--primary-color)] text-gray-900 p-3 rounded-full cursor-pointer z-50 shadow-lg" aria-label="Open chat" tabindex="0"><i class="fas fa-comment"></i></div>
+    <div class="chat-box hidden fixed bottom-16 right-4 w-80 bg-white rounded-lg shadow-lg p-4 z-50" id="chat-box" role="dialog" aria-label="Chat support" aria-modal="true">
+        <h3 class="text-lg font-semibold">Need Help?</h3>
+        <div class="space-y-2">
+            <button class="w-full bg-[var(--primary-color)] text-gray-900 py-2 rounded-md hover:bg-red-600 transition-colors" data-action="donate">How to Donate?</button>
+            <button class="w-full bg-[var(--primary-color)] text-gray-900 py-2 rounded-md hover:bg-red-600 transition-colors" data-action="volunteer">Volunteer Info</button>
+            <button class="w-full bg-[var(--primary-color)] text-gray-900 py-2 rounded-md hover:bg-red-600 transition-colors" data-action="contact">Contact Us</button>
+        </div>
+        <p id="chat-response" class="mt-2" aria-live="polite"></p>
+        <button class="chat-close absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl" aria-label="Close chat">×</button>
+    </div>
+
+    <!-- Announcement Banner -->
+    <div class="announcement-banner fixed top-0 left-0 w-full bg-yellow-400 text-gray-900 text-center py-2 z-50 shadow-md hidden" id="announcement-banner" role="alert">
+        <span>Winter Drive: Donate blankets and warm clothes at our center! <a href="Donate.html" class="underline font-semibold">Learn more</a></span>
+        <button class="ml-4 text-xl font-bold" aria-label="Close announcement" onclick="document.getElementById('announcement-banner').classList.add('hidden')">×</button>
+    </div>
+
+    <main class="pt-20" id="main-content">
+    <!-- Hero Section -->
+    <section class="relative h-[60vh] w-full overflow-hidden" id="hero" role="region" aria-label="About Hero">
+      <div class="absolute inset-0 w-full h-full z-0">
+        <img src="../Images/volunteer-with-gloves-handling-box-food-donations.jpg" class="w-full h-full object-cover opacity-80" alt="Kopano Manyano helping community" loading="lazy">
+      </div>
+      <div class="relative z-10 flex items-center justify-center h-full w-full px-4">
+        <div class="backdrop-blur-sm bg-black/40 p-6 rounded-xl max-w-3xl text-center text-white">
+          <h1 class="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-lg">Transforming Lives with Compassion</h1>
+          <p class="text-lg md:text-xl mb-6 max-w-xl mx-auto leading-relaxed">
+            Discover how Kopano Manyano restores dignity and hope for the homeless in Gauteng.
+          </p>
+          <a href="Donate.html" class="px-6 py-3 bg-[var(--primary-color)] text-gray-900 rounded-full font-bold hover:bg-red-600 transition-colors duration-300" aria-label="Support our mission">
+            Support Our Mission
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="container mx-auto px-4">
+      <!-- About Section -->
+      <section class="section bg-white p-6 rounded-lg shadow-lg mb-8 animate-slide-in">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">About Us</h2>
+        <p class="text-lg mb-4">Kopano Manyano God the Founder Center for Homeless is a non-profit organization dedicated to transforming lives by providing shelter, food, and comprehensive support services to homeless individuals and families in Gauteng Province, South Africa. Our mission is to restore dignity, promote independence, and enhance the quality of life for those in need.</p>
+        <p class="text-lg">Founded with a vision of compassion and community support, we rely on the generosity of donors, volunteers, and strategic partners to sustain our operations. Our work is driven by a deep commitment to social welfare, public health, and sustainable development, ensuring that every individual has the opportunity to thrive.</p>
+      </section>
+
+      <!-- Mission & Vision -->
+      <section class="section bg-white p-6 rounded-lg shadow-lg mb-8 animate-slide-in">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Our Mission & Vision</h2>
+        <p class="text-lg"><strong>Mission:</strong> To provide immediate relief and long-term solutions to homelessness through shelter, nutrition, healthcare, and vocational training, empowering individuals to rebuild their lives with dignity and purpose.</p>
+        <p class="text-lg mt-2"><strong>Vision:</strong> A community where no one is left without a home, hope, or opportunity, fostering inclusivity and self-sufficiency for all.</p>
+      </section>
+
+      <!-- Timeline Section -->
+      <section class="section bg-white p-6 rounded-lg shadow-lg mb-8 animate-slide-in">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-6 text-center">Our Journey</h2>
+        <div class="timeline relative">
+          <div class="timeline-item mb-8 flex items-center">
+            <div class="timeline-dot bg-[var(--primary-color)] w-4 h-4 rounded-full"></div>
+            <div class="ml-4">
+              <h3 class="text-lg font-semibold">2015: Founded</h3>
+              <p class="text-gray-600">Kopano Manyano was established with a vision to support the homeless in Gauteng.</p>
+            </div>
+          </div>
+          <div class="timeline-item mb-8 flex items-center">
+            <div class="timeline-dot bg-[var(--primary-color)] w-4 h-4 rounded-full"></div>
+            <div class="ml-4">
+              <h3 class="text-lg font-semibold">2018: First Shelter Program</h3>
+              <p class="text-gray-600">Launched our first shelter, providing safe haven for 50 individuals.</p>
+            </div>
+          </div>
+          <div class="timeline-item mb-8 flex items-center">
+            <div class="timeline-dot bg-[var(--primary-color)] w-4 h-4 rounded-full"></div>
+            <div class="ml-4">
+              <h3 class="text-lg font-semibold">2022: Expanded Food Assistance</h3>
+              <p class="text-gray-600">Served over 5,000 meals to those in need across the province.</p>
+            </div>
+          </div>
+          <div class="timeline-item flex items-center">
+            <div class="timeline-dot bg-[var(--primary-color)] w-4 h-4 rounded-full"></div>
+            <div class="ml-4">
+              <h3 class="text-lg font-semibold">2025: Ongoing Impact</h3>
+              <p class="text-gray-600">Continuing to empower lives with comprehensive support services.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Team Section -->
+      <section class="section bg-white p-6 rounded-lg shadow-lg mb-8 animate-slide-in">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-6 text-center">Our Team</h2>
+        <div class="team-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
+          <div class="team-card bg-gray-100 p-4 rounded-md text-center transition-all duration-300 hover:shadow-xl hover:scale-105" role="listitem">
+            <img src="../Images/cynthia.jpg" alt="Cynthia Sekwane" class="w-20 h-20 rounded-full mx-auto mb-4" loading="lazy">
+            <h3 class="text-xl font-semibold text-gray-900">Chair Person</h3>
+            <p class="text-gray-600">Cynthia Sekwane</p>
+            <p class="text-gray-600 mt-2">Leads the vision and strategic direction with over 15 years of experience in social welfare.</p>
+            <div class="flex justify-center space-x-3 mt-3">
+              <a href="#" class="text-[var(--primary-color)] hover:text-red-600" aria-label="Cynthia Sekwane on LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+          <div class="team-card bg-gray-100 p-4 rounded-md text-center transition-all duration-300 hover:shadow-xl hover:scale-105" role="listitem">
+            <img src="../Images/Estelle Brenda Lief.jpg" alt="Estelle Brenda Lief" class="w-20 h-20 rounded-full mx-auto mb-4" loading="lazy">
+            <h3 class="text-xl font-semibold text-gray-900">Deputy</h3>
+            <p class="text-gray-600">Estelle Brenda Lief</p>
+            <p class="text-gray-600 mt-2">Oversees project planning, execution, and evaluation for impactful outcomes.</p>
+          </div>
+          <div class="team-card bg-gray-100 p-4 rounded-md text-center transition-all duration-300 hover:shadow-xl hover:scale-105" role="listitem">
+            <img src="../Images/Solly Radebe.jpg" alt="Solly Gadebe" class="w-20 h-20 rounded-full mx-auto mb-4" loading="lazy">
+            <h3 class="text-xl font-semibold text-gray-900">Secretary</h3>
+            <p class="text-gray-600">Solly Gadebe</p>
+            <p class="text-gray-600 mt-2">Manages data-driven insights to optimize programs and resource allocation.</p>
+          </div>
+          <div class="team-card bg-gray-100 p-4 rounded-md text-center transition-all duration-300 hover:shadow-xl hover:scale-105" role="listitem">
+            <img src="../Images/Caroline.jpg" alt="Caroline Leketi" class="w-20 h-20 rounded-full mx-auto mb-4" loading="lazy">
+            <h3 class="text-xl font-semibold text-gray-900">Vice Chair</h3>
+            <p class="text-gray-600">Caroline Leketi</p>
+            <p class="text-gray-600 mt-2">Develops digital platforms to enhance accessibility and donor engagement.</p>
+            <div class="flex justify-center space-x-3 mt-3">
+              <a href="#" class="text-[var(--primary-color)] hover:text-red-600" aria-label="Caroline Leketi on Twitter"><i class="fab fa-x"></i></a>
+            </div>
+          </div>
+          <div class="team-card bg-gray-100 p-4 rounded-md text-center transition-all duration-300 hover:shadow-xl hover:scale-105" role="listitem">
+            <img src="../Images/Percy.jpg" alt="Percy Machaka" class="w-20 h-20 rounded-full mx-auto mb-4" loading="lazy">
+            <h3 class="text-xl font-semibold text-gray-900">Treasurer</h3>
+            <p class="text-gray-600">Percy Machaka</p>
+            <p class="text-gray-600 mt-2">Ensures secure and efficient data management for informed decision-making.</p>
+          </div>
+          <div class="team-card bg-gray-100 p-4 rounded-md text-center transition-all duration-300 hover:shadow-xl hover:scale-105" role="listitem">
+            <img src="../Images/Rose.jpg" alt="Rose Ntuli" class="w-20 h-20 rounded-full mx-auto mb-4" loading="lazy">
+            <h3 class="text-xl font-semibold text-gray-900">Additional Member</h3>
+            <p class="text-gray-600">Rose Ntuli</p>
+            <p class="text-gray-600 mt-2">Supports initiatives and contributes to community outreach programs.</p>
+          </div>
+          <div class="team-card bg-gray-100 p-4 rounded-md text-center transition-all duration-300 hover:shadow-xl hover:scale-105" role="listitem">
+            <img src="../Images/RURAL.jpg" alt="Pastor Catherine Mogale" class="w-20 h-20 rounded-full mx-auto mb-4" loading="lazy">
+            <h3 class="text-xl font-semibold text-gray-900">CEO</h3>
+            <p class="text-gray-600">Pastor Catherine Mogale</p>
+            <p class="text-gray-600 mt-2">Guides overall leadership and fosters partnerships to fulfill the organization’s mission.</p>
+            <div class="flex justify-center space-x-3 mt-3">
+              <a href="https://x.com/catherinemogal1" class="text-[var(--primary-color)] hover:text-red-600" aria-label="Pastor Catherine Mogale on Twitter"><i class="fab fa-x"></i></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Call-to-Action Banner -->
+      <section class="section bg-[var(--primary-color)] text-white p-8 rounded-lg shadow-lg mb-8 text-center animate-slide-in">
+        <h2 class="text-2xl font-bold mb-4">Join Our Mission Today</h2>
+        <p class="text-lg mb-6">Your support can change lives. Donate or volunteer to make a difference in Gauteng.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="Donate.html" class="px-6 py-3 bg-white text-[var(--primary-color)] rounded-full font-bold hover:bg-gray-200 transition-colors duration-300" aria-label="Donate now">
+            Donate Now
+          </a>
+          <a href="Volunteer.html" class="px-6 py-3 border-2 border-white rounded-full font-bold hover:bg-white hover:text-[var(--primary-color)] transition-all duration-300" aria-label="Volunteer with us">
+            Become a Volunteer
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="bg-[var(--secondary-color)] text-white py-8">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">Kopano Manyano</h3>
+          <p>Providing shelter, food, and support to empower homeless individuals in Gauteng.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="About Us.html" class="hover:text-[var(--primary-color)] transition-colors">More About Kopano Manyano</a></li>
+            <li><a href="Volunteer.html" class="hover:text-[var(--primary-color)] transition-colors">Volunteer</a></li>
+            <li><a href="Contact Us.html" class="hover:text-[var(--primary-color)] transition-colors">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-4">Follow Us</h3>
+          <div class="flex space-x-4">
+            <a href="https://x.com/catherinemogal1" class="text-2xl hover:text-[var(--primary-color)] transition-colors" aria-label="Follow us on X"><i class="fab fa-x"></i></a>
+            <a href="https://www.facebook.com/share/1D1CozKDnV/?mibextid=wwXIfr" class="text-2xl hover:text-[var(--primary-color)] transition-colors" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+          </div>
+        </div>
+      </div>
+      <p class="text-center mt-8">© 2025 Kopano Manyano God the Founder Center for Homeless. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <div class="lightbox hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center" id="lightbox" role="dialog" aria-label="Image lightbox">
+    <button class="lightbox-close absolute top-4 right-4 text-white text-2xl cursor-pointer" aria-label="Close lightbox">×</button>
+    <img src="" alt="Lightbox image" id="lightbox-image" class="max-w-[90%] max-h-[90%] rounded-lg">
+  </div>
+  <script src="../jss/About Us.js"></script>
+</body>
+</html>
