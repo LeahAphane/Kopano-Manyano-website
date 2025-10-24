@@ -1,0 +1,8 @@
+# Ignore all JSON configs
+config/*.json
+
+# Other common ignores
+node_modules/
+.env
+*.log
+.DS_Store

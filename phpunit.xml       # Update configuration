@@ -1,0 +1,11 @@
+<phpunit>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+    </php>
+    <testsuites>
+        <testsuite name="My Test Suite">
+            <directory>./tests</directory>
+        </testsuite>
+    </testsuites>
+    <bootstrap>tests/bootstrap.php</bootstrap>
+</phpunit>

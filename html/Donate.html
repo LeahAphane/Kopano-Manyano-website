@@ -3,19 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Support Kopano Manyano Center for Homeless by donating to provide shelter, food, and hope in Gauteng.">
-    <meta name="keywords" content="donate, homeless support, charity, Gauteng">
+    <meta name="description" content="Support Kopano Manyano Center for Homeless by donating via EFT to provide shelter, food, and hope in Gauteng.">
+    <meta name="keywords" content="donate, EFT, homeless support, charity, Gauteng">
     <meta name="author" content="Kopano Manyano Center">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#ef4444">
-    <meta property="og:title" content="Donate to Kopano Manyano Center for Homeless">
-    <meta property="og:description" content="Your donation brings hope and dignity to those in need in Gauteng.">
+    <meta property="og:title" content="Donate via EFT to Kopano Manyano Center for Homeless">
+    <meta property="og:description" content="Your EFT donation brings hope and dignity to those in need in Gauteng.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.kopanomanyano.org/donate">
-    <title>Donate - Kopano Manyano Center for Homeless</title>
+    <title>Donate via EFT - Kopano Manyano Center for Homeless</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../css/Donate.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore-compat.js"></script>
+    <style>
+        :root {
+            --primary-color: #ef4444;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        #welcome-section, #donation-content {
+            flex: 1;
+        }
+        .error-message { color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem; display: none; }
+        .success-message { background-color: #10b981; color: white; padding: 0.75rem; border-radius: 0.375rem; display: none; margin-top: 1rem; }
+        .eft-details { background-color: #f3f4f6; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #ef4444; }
+        .reference-copy { cursor: pointer; color: #ef4444; text-decoration: underline; }
+        .accordion-content { display: none; padding: 1rem; border-top: 1px solid #e5e7eb; }
+        .accordion-header:hover { background-color: #f3f4f6; }
+        .accordion-header[aria-expanded="true"] i { transform: rotate(180deg); }
+        button[type="submit"] { background-color: var(--primary-color, #ef4444); color: white; }
+        button[type="submit"]:hover { background-color: #dc2626; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); overflow: hidden; }
+        .modal-content { background: rgba(255, 255, 255, 0.95); padding: 2.5rem; border-radius: 15px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); width: 100%; max-width: 450px; position: relative; overflow: hidden; animation: fadeIn 1s ease-in-out; margin: 15% auto; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal-content h2 {
+            text-align: center;
+            color: #ff0000;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .modal-content .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .modal-content .form-group label {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #555;
+            transition: 0.3s;
+            pointer-events: none;
+        }
+        .modal-content .form-group input:focus + label,
+        .modal-content .form-group input:not(:placeholder-shown) + label {
+            top: -10px;
+            left: 10px;
+            font-size: 0.8rem;
+            color: #ff0000;
+            background: white;
+            padding: 0 5px;
+        }
+        .modal-content input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ff0000;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s;
+        }
+        .modal-content input:focus {
+            outline: none;
+            border-color: #cc0000;
+            box-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
+        }
+        .modal-content .password-container {
+            position: relative;
+        }
+        .modal-content .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #ff0000;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .modal-content .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .modal-content .checkbox-group input {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+        .modal-content button {
+            width: 100%;
+            padding: 1rem;
+            background: #ff0000;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .modal-content button:hover {
+            background: #cc0000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .modal-content button:disabled {
+            background: #ff6666;
+            cursor: not-allowed;
+        }
+        .modal-content .spinner {
+            display: none;
+            border: 4px solid #ffffff;
+            border-top: 4px solid #ff0000;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        .modal-content .error, .modal-content .success {
+            display: none;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .modal-content .error {
+            background: #ffe6e6;
+            color: #cc0000;
+        }
+        .modal-content .success {
+            background: #e6ffe6;
+            color: #006600;
+        }
+        .modal-content .links {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        .modal-content .links a {
+            color: #ff0000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .modal-content .links a:hover {
+            text-decoration: underline;
+        }
+        .modal-content .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .modal-content .close:hover {
+            color: #000;
+        }
+        .donation-content { display: none; } /* Hidden until logged in */
+    </style>
 </head>
 <body class="font-sans text-gray-900 bg-gray-50 smooth-scroll">
     <header class="bg-gradient-to-r from-[var(--primary-color)] to-gray-900 text-white fixed w-full top-0 z-50 transition-all duration-300" role="banner" aria-label="Main navigation">
@@ -44,207 +223,236 @@
                     <li><a href="Gallery.html#gallery" class="btn-primary" aria-label="Gallery">Gallery</a></li>
                     <li><a href="Contact Us.html" class="btn-primary" aria-label="Contact">Contact</a></li>
                 </ul>
-                <button class="theme-toggle ml-4 text-2xl" aria-label="Toggle dark theme"><i class="fas fa-moon"></i></button>
+                <div id="auth-status" class="ml-4">
+                    <button id="login-btn" class="btn-primary">Login</button>
+                    <button id="signup-btn" class="btn-primary ml-2">Sign Up</button>
+                    <button id="logout-btn" class="hidden bg-[var(--primary-color)] text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors" onclick="logout()">Logout</button>
+                    <span id="user-email" class="hidden ml-2 text-sm"></span>
+                </div>
+                <button class="theme-toggle ml-2 text-2xl" aria-label="Toggle dark theme"><i class="fas fa-moon"></i></button>
             </nav>
         </div>
     </header>
+
     <div class="chat-widget fixed bottom-4 right-4 bg-[var(--primary-color)] text-gray-900 p-3 rounded-full cursor-pointer z-50 shadow-lg" aria-label="Open chat"><i class="fas fa-comment"></i></div>
     <div class="chat-box hidden fixed bottom-16 right-4 w-80 bg-white rounded-lg shadow-lg p-4 z-50" id="chat-box" role="dialog" aria-label="Chat support">
         <h3 class="text-lg font-semibold">Have Questions?</h3>
         <div class="space-y-2">
-            <button class="w-full bg-[var(--primary-color)] text-gray-900 py-2 rounded-md hover:bg-red-600 transition-colors" data-action="donate">How to Donate?</button>
+            <button class="w-full bg-[var(--primary-color)] text-gray-900 py-2 rounded-md hover:bg-red-600 transition-colors" data-action="donate">How to Donate via EFT?</button>
             <button class="w-full bg-[var(--primary-color)] text-gray-900 py-2 rounded-md hover:bg-red-600 transition-colors" data-action="volunteer">Volunteer Info</button>
             <button class="w-full bg-[var(--primary-color)] text-gray-900 py-2 rounded-md hover:bg-red-600 transition-colors" data-action="contact">Contact Us</button>
         </div>
         <p id="chat-response" class="mt-2" aria-live="polite"></p>
     </div>
-    <main role="main">
+
+    <!-- Welcome Message for Non-Logged In -->
+    <div id="welcome-section" class="container mx-auto px-4 py-16 text-center">
+        <h1 class="text-4xl font-bold mb-4">Welcome to Kopano Manyano Donations</h1>
+        <p class="text-lg mb-6 max-w-lg mx-auto">Please log in or sign up to make a secure donation and track your contributions.</p>
+        <button id="login-welcome" class="inline-block px-6 py-3 bg-[var(--primary-color)] text-white rounded-full font-semibold hover:bg-red-600 transition-colors">Login</button>
+        <button id="signup-welcome" class="inline-block px-6 py-3 bg-green-500 text-white rounded-full font-semibold hover:bg-green-600 transition-colors ml-4">Sign Up</button>
+    </div>
+
+    <main role="main" id="donation-content" class="donation-content" style="display: none;">
         <section class="hero relative h-[60vh] flex items-center justify-center text-center text-white mt-16 bg-gradient-to-r from-[var(--primary-color)] to-gray-900 animate-slide-in" role="region" aria-label="Donation hero section">
             <div class="absolute inset-0 bg-black opacity-50 z-0"></div>
             <div class="hero-content relative z-10">
                 <h1 class="text-4xl md:text-5xl font-bold mb-4">Transform Lives Today</h1>
-                <p class="text-lg md:text-xl mb-6 max-w-lg mx-auto">Your generous donation provides shelter, meals, and hope to those in need in Gauteng.</p>
-                <a href="#donate-form" class="inline-block px-6 py-3 bg-[var(--primary-color)] text-gray-900 rounded-full font-semibold hover:bg-red-600 transition-colors" aria-label="Donate now">Donate Now</a>
+                <p class="text-lg md:text-xl mb-6 max-w-lg mx-auto">Your EFT donation provides shelter, meals, and hope to those in need in Gauteng.</p>
+                <a href="#eft-details" class="inline-block px-6 py-3 bg-[var(--primary-color)] text-gray-900 rounded-full font-semibold hover:bg-red-600 transition-colors" aria-label="Donate now">Donate via EFT</a>
             </div>
         </section>
-        <section id="donate-form" class="py-16 bg-gray-100 animate-slide-in" role="region" aria-label="Donation form">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold text-center mb-4">Make a <span class="text-[var(--primary-color)]">Difference</span></h2>
-                <h2 class="text-3xl font-bold text-center mb-4">Once Off<span class="text-[var(--primary-color)]"> Donation</span></h2>
-                <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
-                <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
-                    <form id="donation-form" class="space-y-4" action="/donate" method="POST" novalidate>
-                        <input type="hidden" name="csrf_token" value="DUMMY_CSRF_TOKEN">
-                        <div>
-                            <label for="donation-name" class="sr-only">Full Name</label>
-                            <input type="text" id="donation-name" name="name" placeholder="Full Name" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Full name">
-                            <div class="error-message text-red-600 text-sm mt-1 hidden" id="name-error" role="alert"></div>
-                        </div>
-                        <div>
-                            <label for="donation-email" class="sr-only">Email</label>
-                            <input type="email" id="donation-email" name="email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Email address">
-                            <div class="error-message text-red-600 text-sm mt-1 hidden" id="email-error" role="alert"></div>
-                        </div>
-                        <div>
-                            <label for="donation-amount" class="sr-only">Donation Amount</label>
-                            <select id="donation-amount" name="amount" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Donation amount">
-                                <option value="" disabled selected>Select Amount (ZAR)</option>
-                                <option value="50">R50</option>
-                                <option value="100">R100</option>
-                                <option value="250">R200</option>
-                                <option value="custom">Custom Amount</option>
-                            </select>
-                            <div class="error-message text-red-600 text-sm mt-1 hidden" id="amount-error" role="alert"></div>
-                        </div>
-                        <div>
-                            <label for="custom-amount" class="sr-only">Custom Amount</label>
-                            <input type="number" id="custom-amount" name="custom-amount" placeholder="Custom Amount" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] hidden" min="1" aria-label="Custom donation amount">
-                            <div class="error-message text-red-600 text-sm mt-1 hidden" id="custom-amount-error" role="alert"></div>
-                        </div>
-                        <button type="submit" class="w-full p-3 bg-[var(--primary-color)] text-gray-900 rounded-md hover:bg-red-600 transition-colors font-semibold" aria-label="Submit donation">Donate Now</button>
-                        <div class="success-message bg-green-500 text-white p-3 rounded-md hidden" id="donation-success" role="alert"></div>
-                    </form>
-                </div>
-            </div>
-        </section>
-         <!-- Main Content -->
-    <main role="main" class="pt-20">
-        <!-- Debit Order Form Section -->
-        <section id="debit-order" class="py-16 bg-white" role="region" aria-label="Debit Order Donation">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold text-center mb-4">Set Up a <span class="text-[var(--primary-color)]">Monthly Debit Order</span></h2>
-                <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
-                <p class="text-center mb-8">Please complete the form below to set up a monthly debit order to support our charity and development initiatives.</p>
-                <div class="form-container">
-                    <form id="debit-order-form" action="/debit-order" method="POST" class="space-y-6" novalidate>
-                        <input type="hidden" name="csrf_token" value="DUMMY_CSRF_TOKEN">
-                        <!-- Name -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label for="first-name" class="block text-sm font-medium">First Name <span class="text-[var(--primary-color)]">*</span></label>
-                                <input type="text" id="first-name" name="first-name" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="First name">
-                                <div class="error-message hidden" id="first-name-error" role="alert"></div>
-                            </div>
-                            <div>
-                                <label for="last-name" class="block text-sm font-medium">Last Name <span class="text-[var(--primary-color)]">*</span></label>
-                                <input type="text" id="last-name" name="last-name" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Last name">
-                                <div class="error-message hidden" id="last-name-error" role="alert"></div>
-                            </div>
-                        </div>
-                        <!-- Email -->
-                        <div>
-                            <label for="email" class="block text-sm font-medium">Email Address <span class="text-[var(--primary-color)]">*</span></label>
-                            <input type="email" id="email" name="email" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Email address">
-                            <div class="error-message hidden" id="email-error" role="alert"></div>
-                        </div>
-                        <!-- Cell Phone -->
-                        <div>
-                            <label for="phone" class="block text-sm font-medium">Cell Phone <span class="text-[var(--primary-color)]">*</span></label>
-                            <input type="tel" id="phone" name="phone" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Cell phone number">
-                            <div class="error-message hidden" id="phone-error" role="alert"></div>
-                        </div>
-                        <!-- Banking Details -->
-                        <div>
-                            <h3 class="text-lg font-semibold mb-2">Banking Details</h3>
-                            <div>
-                                <label for="bank" class="block text-sm font-medium">Who do you bank with? <span class="text-[var(--primary-color)]">*</span></label>
-                                <select id="bank" name="bank" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Bank name">
-                                    <option value="" disabled selected>Select your bank</option>
-                                    <option value="sbi">Absa</option>
-                                    <option value="hdfc">FNB</option>
-                                    <option value="icici">Capitec</option>
-                                    <option value="axis">Standard Bank</option>
-                                    <option value="axis">Nedbank</option>
-                                    <option value="other">Other</option>
-                                </select>
-                                <div class="error-message hidden" id="bank-error" role="alert"></div>
-                            </div>
-                            <div class="mt-4">
-                                <label for="account-number" class="block text-sm font-medium">Bank Account Number <span class="text-[var(--primary-color)]">*</span></label>
-                                <input type="text" id="account-number" name="account-number" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Bank account number">
-                                <div class="error-message hidden" id="account-number-error" role="alert"></div>
-                            </div>
-                            <div class="mt-4">
-                                <label for="branch-code" class="block text-sm font-medium">Bank Account Branch Code <span class="text-[var(--primary-color)]">*</span></label>
-                                <input type="text" id="branch-code" name="branch-code" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Bank branch code">
-                                <div class="error-message hidden" id="branch-code-error" role="alert"></div>
-                            </div>
-                            <div class="mt-4">
-                                <label class="block text-sm font-medium">Type of Bank Account <span class="text-[var(--primary-color)]">*</span></label>
-                                <div class="flex space-x-4">
-                                    <label class="flex items-center">
-                                        <input type="radio" name="account-type" value="current" class="mr-2" required aria-label="Current or Cheque Account">
-                                        Current / Cheque Account
-                                    </label>
-                                    <label class="flex items-center">
-                                        <input type="radio" name="account-type" value="savings" class="mr-2" aria-label="Savings Account">
-                                        Savings Account
-                                    </label>
-                                </div>
-                                <div class="error-message hidden" id="account-type-error" role="alert"></div>
-                            </div>
-                        </div>
-                        <!-- Debit Order Amount -->
-                        <div>
-                            <label for="debit-amount" class="block text-sm font-medium">Monthly Debit Order Amount <span class="text-[var(--primary-color)]">*</span></label>
-                            <select id="debit-amount" name="debit-amount" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Monthly debit order amount">
-                                <option value="" disabled selected>Select Amount (ZAR)</option>
-                                <option value="100">R100</option>
-                                <option value="200">R200</option>
-                                <option value="100">R500</option>
-                                <option value="other">Other</option>
-                            </select>
-                            <div class="error-message hidden" id="debit-amount-error" role="alert"></div>
-                            <div class="mt-4 hidden" id="other-amount-container">
-                                <label for="other-amount" class="block text-sm font-medium">Other Amount</label>
-                                <input type="number" id="other-amount" name="other-amount" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" min="1" aria-label="Other debit order amount">
-                                <div class="error-message hidden" id="other-amount-error" role="alert"></div>
-                            </div>
-                        </div>
-                        <!-- Comments -->
-                        <div>
-                            <label for="comments" class="block text-sm font-medium">Additional Comments / Questions (Optional)</label>
-                            <textarea id="comments" name="comments" rows="4" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" aria-label="Additional comments or questions"></textarea>
-                        </div>
-                        <!-- Submit Button -->
-                        <button type="submit" class="w-full p-3 bg-[var(--primary-color)] text-gray-900 rounded-md hover:bg-red-600 transition-colors font-semibold" aria-label="Submit debit order">Set Up Debit Order</button>
-                        <div class="success-message hidden" id="debit-order-success" role="alert"></div>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </main>
 
-        <section id="faq" class="py-16 bg-gray-100 animate-slide-in" role="region" aria-label="Frequently Asked Questions">
+        <!-- EFT Bank Details Section -->
+        <section id="eft-details" class="py-8 bg-gray-100" role="region" aria-label="EFT Payment Details">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-4">EFT <span class="text-[var(--primary-color)]">Donation Details</span></h2>
+                <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
+                <p class="text-center mb-8">Transfer funds securely via your bank's online/app EFT. We'll send a receipt and thank-you upon confirmation.</p>
+                <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
+                    <div class="eft-details mb-4">
+                        <h3 class="font-semibold mb-2">Our Bank Details:</h3>
+                        <p><strong>Bank:</strong> Standard Bank</p>
+                        <p><strong>Branch:</strong> Standard Bank</p>
+                        <p><strong>Account Holder:</strong> KOPANO MANYANO GOD THE FOUNDER CENTRE FOR HOMELESS</p>
+                        <p><strong>Account Type:</strong> Current Account</p>
+                        <p><strong>Account Number:</strong> 01 011 786 5</p>
+                        <p><strong>Branch Code:</strong> 00045</p>
+                        <p><strong>Signatories:</strong> MATLAKALA CATHERINE MOKGALE (Chairperson)</p>
+                        <p><strong>Reference:</strong> DONATION-[Your Full Name]-[Date, e.g., 2025-10-20]</p>
+                        <p class="text-sm text-gray-600 mt-2">For international transfers, use Swift: SBZAZAJJ. Email confirmation to kopanomanyano51@gmail.com after transfer.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="donate-form" class="py-16 bg-white animate-slide-in" role="region" aria-label="Once-off Donation form">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-4">Make a <span class="text-[var(--primary-color)]">One-Off</span> EFT Donation</h2>
+                <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
+                <p class="text-center mb-8">Complete the form below to register your donation intent. We'll confirm receipt and send a tax-deductible receipt (if applicable).</p>
+                <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
+                    <form id="donation-form" novalidate>
+                        <input type="hidden" name="donation_type" value="once-off">
+                        <!-- Donor Details -->
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="name_first" class="block text-sm font-medium text-gray-700 mb-1">First Name <span class="text-red-500">*</span></label>
+                                    <input type="text" id="name_first" name="name_first" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" required aria-required="true" aria-label="First name">
+                                    <div class="error-message" id="name-first-error" role="alert" aria-live="polite"></div>
+                                </div>
+                                <div>
+                                    <label for="name_last" class="block text-sm font-medium text-gray-700 mb-1">Last Name <span class="text-red-500">*</span></label>
+                                    <input type="text" id="name_last" name="name_last" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" required aria-required="true" aria-label="Last name">
+                                    <div class="error-message" id="name-last-error" role="alert" aria-live="polite"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="email_address" class="block text-sm font-medium text-gray-700 mb-1">Email Address <span class="text-red-500">*</span></label>
+                                <input type="email" id="email_address" name="email_address" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" required aria-required="true" aria-label="Email address">
+                                <div class="error-message" id="email-error" role="alert" aria-live="polite"></div>
+                            </div>
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Cell Phone (Optional)</label>
+                                <input type="tel" id="phone" name="phone" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" aria-label="Cell phone number">
+                            </div>
+                            <div>
+                                <label for="amount-select" class="block text-sm font-medium text-gray-700 mb-1">Donation Amount <span class="text-red-500">*</span></label>
+                                <select id="amount-select" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" required aria-required="true" aria-label="Donation amount">
+                                    <option value="" disabled selected>Select Amount (ZAR)</option>
+                                    <option value="50">R50</option>
+                                    <option value="100">R100</option>
+                                    <option value="250">R250</option>
+                                    <option value="custom">Custom Amount</option>
+                                </select>
+                                <div class="error-message" id="amount-error" role="alert" aria-live="polite"></div>
+                            </div>
+                            <div id="custom-amount-div" class="hidden">
+                                <label for="custom-amount" class="block text-sm font-medium text-gray-700 mb-1">Custom Amount (ZAR) <span class="text-red-500">*</span></label>
+                                <input type="number" id="custom-amount" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" min="1" step="0.01" aria-label="Custom donation amount">
+                                <div class="error-message" id="custom-amount-error" role="alert" aria-live="polite"></div>
+                            </div>
+                            <div>
+                                <label for="comments" class="block text-sm font-medium text-gray-700 mb-1">Comments (Optional)</label>
+                                <textarea id="comments" name="comments" rows="3" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" aria-label="Additional comments" placeholder="E.g., In memory of..."></textarea>
+                            </div>
+                            <button type="submit" class="w-full p-3 bg-[var(--primary-color)] text-white rounded-md hover:bg-red-600 transition-colors font-semibold" aria-label="Submit donation intent">Confirm & Get EFT Instructions</button>
+                            <div class="success-message" id="donation-success" role="alert" aria-live="polite">
+                                <p>Thank you! Your details have been submitted. Please complete your EFT transfer using the details above. A confirmation email is on its way.</p>
+                                <p><strong>Your Reference:</strong> <span id="once-reference" class="reference-copy" onclick="navigator.clipboard.writeText(this.textContent); alert('Copied to clipboard!')"></span> (Click to copy)</p>
+                                <p>We'll send a full receipt within 24 hours of bank confirmation.</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Monthly Recurring Donation Section -->
+        <section id="debit-order" class="py-16 bg-gray-100" role="region" aria-label="Monthly Recurring Donation">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-4">Set Up <span class="text-[var(--primary-color)]">Monthly EFT</span> Donations</h2>
+                <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
+                <p class="text-center mb-8">Commit to monthly EFT transfers. We'll send reminders and a formal mandate for bank debit orders if preferred.</p>
+                <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
+                    <form id="recurring-form" novalidate>
+                        <input type="hidden" name="donation_type" value="monthly">
+                        <!-- Donor Details -->
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="recurring-first-name" class="block text-sm font-medium text-gray-700 mb-1">First Name <span class="text-red-500">*</span></label>
+                                    <input type="text" id="recurring-first-name" name="name_first" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" required aria-required="true" aria-label="First name">
+                                    <div class="error-message" id="recurring-first-name-error" role="alert" aria-live="polite"></div>
+                                </div>
+                                <div>
+                                    <label for="recurring-last-name" class="block text-sm font-medium text-gray-700 mb-1">Last Name <span class="text-red-500">*</span></label>
+                                    <input type="text" id="recurring-last-name" name="name_last" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" required aria-required="true" aria-label="Last name">
+                                    <div class="error-message" id="recurring-last-name-error" role="alert" aria-live="polite"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="recurring-email" class="block text-sm font-medium text-gray-700 mb-1">Email Address <span class="text-red-500">*</span></label>
+                                <input type="email" id="recurring-email" name="email_address" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" required aria-required="true" aria-label="Email address">
+                                <div class="error-message" id="recurring-email-error" role="alert" aria-live="polite"></div>
+                            </div>
+                            <div>
+                                <label for="recurring-phone" class="block text-sm font-medium text-gray-700 mb-1">Cell Phone <span class="text-red-500">*</span></label>
+                                <input type="tel" id="recurring-phone" name="phone" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" required aria-required="true" aria-label="Cell phone number">
+                                <div class="error-message" id="recurring-phone-error" role="alert" aria-live="polite"></div>
+                            </div>
+                            <div>
+                                <label for="recurring-amount-select" class="block text-sm font-medium text-gray-700 mb-1">Monthly Amount <span class="text-red-500">*</span></label>
+                                <select id="recurring-amount-select" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" required aria-required="true" aria-label="Monthly donation amount">
+                                    <option value="" disabled selected>Select Amount (ZAR)</option>
+                                    <option value="100">R100</option>
+                                    <option value="200">R200</option>
+                                    <option value="500">R500</option>
+                                    <option value="custom">Custom Amount</option>
+                                </select>
+                                <div class="error-message" id="recurring-amount-error" role="alert" aria-live="polite"></div>
+                            </div>
+                            <div id="recurring-custom-amount-div" class="hidden">
+                                <label for="recurring-custom-amount" class="block text-sm font-medium text-gray-700 mb-1">Custom Monthly Amount (ZAR) <span class="text-red-500">*</span></label>
+                                <input type="number" id="recurring-custom-amount" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" min="1" step="0.01" aria-label="Custom monthly amount">
+                                <div class="error-message" id="recurring-custom-amount-error" role="alert" aria-live="polite"></div>
+                            </div>
+                            <div>
+                                <label for="recurring-comments" class="block text-sm font-medium text-gray-700 mb-1">Comments (Optional)</label>
+                                <textarea id="recurring-comments" name="comments" rows="3" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" aria-label="Additional comments" placeholder="E.g., Start from next month"></textarea>
+                            </div>
+                            <button type="submit" class="w-full p-3 bg-[var(--primary-color)] text-white rounded-md hover:bg-red-600 transition-colors font-semibold" aria-label="Submit monthly commitment">Commit to Monthly EFT</button>
+                            <div class="success-message" id="recurring-success" role="alert" aria-live="polite">
+                                <p>Thank you for your ongoing support! Your details have been submitted. A confirmation email is on its way.</p>
+                                <p><strong>Your Reference:</strong> <span id="monthly-reference" class="reference-copy" onclick="navigator.clipboard.writeText(this.textContent); alert('Copied to clipboard!')"></span> (Click to copy)</p>
+                                <p>We'll email monthly reminders. Contact us to set up automatic debit orders.</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="py-16 bg-white animate-slide-in" role="region" aria-label="Frequently Asked Questions">
             <div class="container mx-auto px-4">
                 <h2 class="text-3xl font-bold text-center mb-4">Frequently <span class="text-[var(--primary-color)]">Asked Questions</span></h2>
                 <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
                 <div class="max-w-2xl mx-auto space-y-4">
-                    <div class="bg-white rounded-lg shadow-lg">
-                        <div class="accordion-header p-4 flex justify-between items-center" aria-expanded="false">
-                            <h3 class="font-semibold">How is my donation used?</h3>
-                            <i class="fas fa-chevron-down"></i>
+                    <div class="bg-gray-50 rounded-lg shadow-sm border border-gray-200">
+                        <div class="accordion-header p-4 flex justify-between items-center cursor-pointer transition-all" tabindex="0" role="button" aria-expanded="false" onclick="toggleAccordion(this)">
+                            <h3 class="font-semibold text-gray-800">How is my donation used?</h3>
+                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
                         </div>
                         <div class="accordion-content">
-                            <p>Your donation directly funds shelter, meals, and outreach programs, with 85% allocated to services and 15% to operations.</p>
+                            <p class="text-gray-700">Your donation directly funds shelter, meals, and outreach programs, with 85% allocated to services and 15% to operations.</p>
                         </div>
                     </div>
-                    <div class="bg-white rounded-lg shadow-lg">
-                        <div class="accordion-header p-4 flex justify-between items-center" aria-expanded="false">
-                            <h3 class="font-semibold">Can I Volunteer, or Donate Food/Clothes/Essentials etc..?</h3>
-                            <i class="fas fa-chevron-down"></i>
+                    <div class="bg-gray-50 rounded-lg shadow-sm border border-gray-200">
+                        <div class="accordion-header p-4 flex justify-between items-center cursor-pointer transition-all" tabindex="0" role="button" aria-expanded="false" onclick="toggleAccordion(this)">
+                            <h3 class="font-semibold text-gray-800">Can I Volunteer, or Donate Food/Clothes/Essentials etc..?</h3>
+                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
                         </div>
                         <div class="accordion-content">
-                            <p>Yes, Get in contact with us on our <b>Email</b> <font color="lightblue"><b><i>(kopanomanyano51@gmail.com)</b></i></font>  <b><i>/ Number <font color="lightblue">(+27 87 265 1327)</b></i></font> to know more.</p>
+                            <p class="text-gray-700">Yes, Get in contact with us on our <b>Email</b> <font color="lightblue"><b><i>(kopanomanyano51@gmail.com)</b></i></font>  <b><i>/ Number <font color="lightblue">(+27 87 265 1327)</b></i></font> to know more.</p>
                         </div>
                     </div>
-                    <div class="bg-white rounded-lg shadow-lg">
-                        <div class="accordion-header p-4 flex justify-between items-center" aria-expanded="false">
-                            <h3 class="font-semibold">Can I set up monthly donations?</h3>
-                            <i class="fas fa-chevron-down"></i>
+                    <div class="bg-gray-50 rounded-lg shadow-sm border border-gray-200">
+                        <div class="accordion-header p-4 flex justify-between items-center cursor-pointer transition-all" tabindex="0" role="button" aria-expanded="false" onclick="toggleAccordion(this)">
+                            <h3 class="font-semibold text-gray-800">How do I make an EFT donation?</h3>
+                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
                         </div>
                         <div class="accordion-content">
-                            <p>Contact us at <b><i><font color="lightblue">kopanomanyano51@gmail.com</font></b></i> to arrange recurring donations.</p>
+                            <p class="text-gray-700">Use the bank details above. Log into your banking app, select EFT, enter our details, and use the suggested reference. Email us a proof of payment for a receipt.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg shadow-sm border border-gray-200">
+                        <div class="accordion-header p-4 flex justify-between items-center cursor-pointer transition-all" tabindex="0" role="button" aria-expanded="false" onclick="toggleAccordion(this)">
+                            <h3 class="font-semibold text-gray-800">Can I set up monthly donations?</h3>
+                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p class="text-gray-700">Yes! Use the Monthly form above for manual EFT reminders, or contact us at <b><i><font color="lightblue">kopanomanyano51@gmail.com</font></b></i> for a debit order mandate.</p>
                         </div>
                     </div>
                 </div>
@@ -253,12 +461,531 @@
     </main>
     <footer class="bg-gray-900 text-white py-8" role="contentinfo" aria-label="Footer">
         <div class="container mx-auto px-4 text-center">
-            <p>Email: <a href="mailto:kopanomanyano51@gmail.com" class="text-[var(--primary-color)] hover:text-red-600 transition-colors">kopanomanyano51@gmail.com</a></p>
-            <p>Phone: <a href="tel:+27872651327" class="text-[var(--primary-color)] hover:text-red-600 transition-colors">+27 87 265 1327</a></p>
-            <p class="mt-4">© 2025 Kopano Manyano God the Founder Centre for Homeless. All rights reserved.</p>
+            <p class="mb-2">Email: <a href="mailto:kopanomanyano51@gmail.com" class="text-[var(--primary-color)] hover:text-red-600 transition-colors">kopanomanyano51@gmail.com</a></p>
+            <p class="mb-4">Phone: <a href="tel:+27872651327" class="text-[var(--primary-color)] hover:text-red-600 transition-colors">+27 87 265 1327</a></p>
+            <p>© 2025 Kopano Manyano God the Founder Centre for Homeless. All rights reserved. Secure EFT donations—no fees!</p>
         </div>
     </footer>
 
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <input type="email" id="login-email" required placeholder=" ">
+                    <label for="login-email">Email</label>
+                </div>
+                <div class="form-group password-container">
+                    <input type="password" id="login-password" required placeholder=" ">
+                    <label for="login-password">Password</label>
+                    <span class="toggle-password" onclick="togglePassword('login-password')">Show</span>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="remember-login">
+                    <label for="remember-login">Remember me</label>
+                </div>
+                <button type="submit">Login <span class="spinner"></span></button>
+            </form>
+            <div class="error"></div>
+            <div class="success"></div>
+            <div class="links">
+                <a href="#" class="forgot-password">Forgot Password?</a>
+                <br>
+                <a href="#" class="switch-to-signup">Don't have an account? Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signup-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Sign Up</h2>
+            <form id="signup-form">
+                <div class="form-group">
+                    <input type="text" id="signup-name" required placeholder=" ">
+                    <label for="signup-name">Full Name</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="signup-email" required placeholder=" ">
+                    <label for="signup-email">Email</label>
+                </div>
+                <div class="form-group password-container">
+                    <input type="password" id="signup-password" required placeholder=" ">
+                    <label for="signup-password">Password</label>
+                    <span class="toggle-password" onclick="togglePassword('signup-password')">Show</span>
+                </div>
+                <div class="form-group password-container">
+                    <input type="password" id="signup-confirm-password" required placeholder=" ">
+                    <label for="signup-confirm-password">Confirm Password</label>
+                    <span class="toggle-password" onclick="togglePassword('signup-confirm-password')">Show</span>
+                </div>
+                <button type="submit">Sign Up <span class="spinner"></span></button>
+            </form>
+            <div class="error"></div>
+            <div class="success"></div>
+            <div class="links">
+                <a href="#" class="switch-to-login">Already have an account? Login</a>
+            </div>
+        </div>
+    </div>
+
     <script src="../jss/Donate.js"></script>
+    <script>
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDuRUMkjXSbC5Hck66pWxrfCyKgsX4OQcs",
+  authDomain: "kmgc-8a098.firebaseapp.com",
+  projectId: "kmgc-8a098",
+  storageBucket: "kmgc-8a098.firebasestorage.app",
+  messagingSenderId: "555860443297",
+  appId: "1:555860443297:web:eaef8fbdd40a72687e30e0",
+  measurementId: "G-GTGX7VKYDT"
+};
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        let currentUser = null;
+
+        // Auth state listener
+        auth.onAuthStateChanged((user) => {
+            currentUser = user;
+            if (user) {
+                document.getElementById('login-btn').classList.add('hidden');
+                document.getElementById('signup-btn').classList.add('hidden');
+                document.getElementById('logout-btn').classList.remove('hidden');
+                document.getElementById('user-email').textContent = user.email;
+                document.getElementById('user-email').classList.remove('hidden');
+                document.getElementById('welcome-section').style.display = 'none';
+                document.getElementById('donation-content').style.display = 'block';
+                console.log('User logged in:', user.email);
+            } else {
+                document.getElementById('login-btn').classList.remove('hidden');
+                document.getElementById('signup-btn').classList.remove('hidden');
+                document.getElementById('logout-btn').classList.add('hidden');
+                document.getElementById('user-email').classList.add('hidden');
+                document.getElementById('welcome-section').style.display = 'block';
+                document.getElementById('donation-content').style.display = 'none';
+                console.log('No user logged in');
+            }
+        });
+
+        // Logout
+        function logout() {
+            auth.signOut().then(() => {
+                console.log('User logged out');
+            }).catch((error) => {
+                console.error('Logout error:', error);
+            });
+        }
+
+        // Shared function to generate reference
+        function generateReference(firstName, lastName) {
+            const today = new Date().toISOString().split('T')[0];
+            return `DONATION-${firstName} ${lastName}-${today}`;
+        }
+
+        // Toggle for FAQ accordion
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('i');
+            const isExpanded = header.getAttribute('aria-expanded') === 'true';
+            
+            if (isExpanded) {
+                content.style.display = 'none';
+                header.setAttribute('aria-expanded', 'false');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.display = 'block';
+                header.setAttribute('aria-expanded', 'true');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Submit function for Firestore (requires auth)
+        async function submitToFirestore(formData, formId, successId, referenceId) {
+            if (!currentUser) {
+                alert('Please log in to submit donations.');
+                openLoginModal();
+                return;
+            }
+
+            const reference = generateReference(formData.name_first, formData.name_last);
+            formData.reference = reference;
+            formData.userId = currentUser.uid;
+            
+            try {
+                await db.collection('donations').add({
+                    ...formData,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                console.log('Data saved to Firestore:', formData);
+                alert('Thank you for your donation! A confirmation email will be sent shortly.');
+            } catch (error) {
+                console.error('Error saving to Firestore:', error);
+                alert('There was an issue submitting your donation. Please try again.');
+            }
+            
+            // Show success
+            document.getElementById(formId).style.display = 'none';
+            const successDiv = document.getElementById(successId);
+            document.getElementById(referenceId).textContent = reference;
+            successDiv.style.display = 'block';
+            successDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Once-Off Form JS
+            const onceForm = document.getElementById('donation-form');
+            const amountSelect = document.getElementById('amount-select');
+            const customDiv = document.getElementById('custom-amount-div');
+            const customInput = document.getElementById('custom-amount');
+
+            // Amount select handler
+            amountSelect.addEventListener('change', function() {
+                if (this.value === 'custom') {
+                    customDiv.classList.remove('hidden');
+                    customInput.focus();
+                } else {
+                    customDiv.classList.add('hidden');
+                    customInput.value = '';
+                }
+            });
+
+            // Custom input validation display
+            customInput.addEventListener('input', function() {
+                const errorEl = document.getElementById('custom-amount-error');
+                if (this.value && parseFloat(this.value) < 1) {
+                    errorEl.textContent = 'Amount must be at least R1.';
+                    errorEl.style.display = 'block';
+                } else {
+                    errorEl.style.display = 'none';
+                }
+            });
+
+            // Form submit
+            onceForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                console.log('Once-off form submitted - validation starting');
+                
+                // Clear previous errors
+                document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+                
+                // Validation
+                const requiredFields = [
+                    { id: 'name_first', errorId: 'name-first-error' },
+                    { id: 'name_last', errorId: 'name-last-error' },
+                    { id: 'email_address', errorId: 'email-error' }
+                ];
+                let isValid = true;
+                requiredFields.forEach(field => {
+                    const input = document.getElementById(field.id);
+                    if (!input.value.trim()) {
+                        document.getElementById(field.errorId).textContent = 'This field is required.';
+                        document.getElementById(field.errorId).style.display = 'block';
+                        isValid = false;
+                    }
+                });
+
+                // Email format validation
+                const email = document.getElementById('email_address').value;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (email && !emailRegex.test(email)) {
+                    document.getElementById('email-error').textContent = 'Please enter a valid email address.';
+                    document.getElementById('email-error').style.display = 'block';
+                    isValid = false;
+                }
+
+                if (!amountSelect.value) {
+                    document.getElementById('amount-error').textContent = 'Please select an amount.';
+                    document.getElementById('amount-error').style.display = 'block';
+                    isValid = false;
+                } else if (amountSelect.value === 'custom') {
+                    if (!customInput.value || parseFloat(customInput.value) < 1) {
+                        document.getElementById('custom-amount-error').textContent = 'Please enter a valid amount (min R1).';
+                        document.getElementById('custom-amount-error').style.display = 'block';
+                        isValid = false;
+                    }
+                }
+
+                if (!isValid) {
+                    console.log('Validation failed');
+                    alert('Please fill in all required fields correctly.');
+                    return;
+                }
+
+                console.log('Validation passed - collecting data');
+                // Collect data
+                const formData = {
+                    donation_type: 'once-off',
+                    name_first: document.getElementById('name_first').value.trim(),
+                    name_last: document.getElementById('name_last').value.trim(),
+                    email_address: email,
+                    phone: document.getElementById('phone').value.trim() || '',
+                    amount: amountSelect.value === 'custom' ? parseFloat(customInput.value) : parseFloat(amountSelect.value),
+                    comments: document.getElementById('comments').value.trim() || ''
+                };
+
+                console.log('Submitting to Firestore:', formData);
+                await submitToFirestore(formData, 'donation-form', 'donation-success', 'once-reference');
+            });
+
+            // Monthly Form JS
+            const recurringForm = document.getElementById('recurring-form');
+            const recurringAmountSelect = document.getElementById('recurring-amount-select');
+            const recurringCustomDiv = document.getElementById('recurring-custom-amount-div');
+            const recurringCustomInput = document.getElementById('recurring-custom-amount');
+
+            // Amount select handler
+            recurringAmountSelect.addEventListener('change', function() {
+                if (this.value === 'custom') {
+                    recurringCustomDiv.classList.remove('hidden');
+                    recurringCustomInput.focus();
+                } else {
+                    recurringCustomDiv.classList.add('hidden');
+                    recurringCustomInput.value = '';
+                }
+            });
+
+            // Custom input validation display
+            recurringCustomInput.addEventListener('input', function() {
+                const errorEl = document.getElementById('recurring-custom-amount-error');
+                if (this.value && parseFloat(this.value) < 1) {
+                    errorEl.textContent = 'Amount must be at least R1.';
+                    errorEl.style.display = 'block';
+                } else {
+                    errorEl.style.display = 'none';
+                }
+            });
+
+            // Form submit
+            recurringForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                console.log('Monthly form submitted - validation starting');
+                
+                // Clear previous errors
+                document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+                
+                // Validation
+                const requiredFields = [
+                    { id: 'recurring-first-name', errorId: 'recurring-first-name-error' },
+                    { id: 'recurring-last-name', errorId: 'recurring-last-name-error' },
+                    { id: 'recurring-email', errorId: 'recurring-email-error' },
+                    { id: 'recurring-phone', errorId: 'recurring-phone-error' }
+                ];
+                let isValid = true;
+                requiredFields.forEach(field => {
+                    const input = document.getElementById(field.id);
+                    if (!input.value.trim()) {
+                        document.getElementById(field.errorId).textContent = 'This field is required.';
+                        document.getElementById(field.errorId).style.display = 'block';
+                        isValid = false;
+                    }
+                });
+
+                // Email format validation
+                const email = document.getElementById('recurring-email').value;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (email && !emailRegex.test(email)) {
+                    document.getElementById('recurring-email-error').textContent = 'Please enter a valid email address.';
+                    document.getElementById('recurring-email-error').style.display = 'block';
+                    isValid = false;
+                }
+
+                if (!recurringAmountSelect.value) {
+                    document.getElementById('recurring-amount-error').textContent = 'Please select an amount.';
+                    document.getElementById('recurring-amount-error').style.display = 'block';
+                    isValid = false;
+                } else if (recurringAmountSelect.value === 'custom') {
+                    if (!recurringCustomInput.value || parseFloat(recurringCustomInput.value) < 1) {
+                        document.getElementById('recurring-custom-amount-error').textContent = 'Please enter a valid amount (min R1).';
+                        document.getElementById('recurring-custom-amount-error').style.display = 'block';
+                        isValid = false;
+                    }
+                }
+
+                if (!isValid) {
+                    console.log('Validation failed');
+                    alert('Please fill in all required fields correctly.');
+                    return;
+                }
+
+                console.log('Validation passed - collecting data');
+                // Collect data
+                const formData = {
+                    donation_type: 'monthly',
+                    name_first: document.getElementById('recurring-first-name').value.trim(),
+                    name_last: document.getElementById('recurring-last-name').value.trim(),
+                    email_address: email,
+                    phone: document.getElementById('recurring-phone').value.trim(),
+                    amount: recurringAmountSelect.value === 'custom' ? parseFloat(recurringCustomInput.value) : parseFloat(recurringAmountSelect.value),
+                    comments: document.getElementById('recurring-comments').value.trim() || ''
+                };
+
+                console.log('Submitting to Firestore:', formData);
+                await submitToFirestore(formData, 'recurring-form', 'recurring-success', 'monthly-reference');
+            });
+
+            // Modal handling
+            const loginModal = document.getElementById('login-modal');
+            const signupModal = document.getElementById('signup-modal');
+            const closes = document.querySelectorAll('.close');
+
+            closes.forEach(close => {
+                close.addEventListener('click', () => {
+                    loginModal.style.display = 'none';
+                    signupModal.style.display = 'none';
+                });
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === loginModal || e.target === signupModal) {
+                    loginModal.style.display = 'none';
+                    signupModal.style.display = 'none';
+                }
+            });
+
+            function openLoginModal() {
+                loginModal.style.display = 'block';
+                signupModal.style.display = 'none';
+            }
+
+            function openSignupModal() {
+                signupModal.style.display = 'block';
+                loginModal.style.display = 'none';
+            }
+
+            document.getElementById('login-btn').addEventListener('click', openLoginModal);
+            document.getElementById('signup-btn').addEventListener('click', openSignupModal);
+            document.getElementById('login-welcome').addEventListener('click', openLoginModal);
+            document.getElementById('signup-welcome').addEventListener('click', openSignupModal);
+
+            document.querySelector('#login-modal .switch-to-signup').addEventListener('click', (e) => {
+                e.preventDefault();
+                openSignupModal();
+            });
+
+            document.querySelector('#signup-modal .switch-to-login').addEventListener('click', (e) => {
+                e.preventDefault();
+                openLoginModal();
+            });
+
+            document.querySelector('.forgot-password').addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Please email kopanomanyano51@gmail.com for password reset.');
+            });
+
+            // Toggle password visibility
+            function togglePassword(id) {
+                const input = document.getElementById(id);
+                const toggle = input.parentElement.querySelector('.toggle-password');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    toggle.textContent = 'Hide';
+                } else {
+                    input.type = 'password';
+                    toggle.textContent = 'Show';
+                }
+            }
+
+            // Show/hide spinner and disable button
+            function showSpinner(button, show) {
+                const spinner = button.querySelector('.spinner');
+                if (show) {
+                    button.disabled = true;
+                    spinner.style.display = 'block';
+                } else {
+                    button.disabled = false;
+                    spinner.style.display = 'none';
+                }
+            }
+
+            // Login form submission
+            const loginForm = document.getElementById('login-form');
+            const loginButton = loginForm.querySelector('button');
+            const loginError = loginModal.querySelector('.error');
+            const loginSuccess = loginModal.querySelector('.success');
+
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                const remember = document.getElementById('remember-login').checked;
+
+                loginError.style.display = 'none';
+                loginSuccess.style.display = 'none';
+                showSpinner(loginButton, true);
+
+                const persistence = remember ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION;
+                auth.setPersistence(persistence)
+                    .then(() => {
+                        return auth.signInWithEmailAndPassword(email, password);
+                    })
+                    .then((userCredential) => {
+                        showSpinner(loginButton, false);
+                        loginSuccess.textContent = 'Login successful!';
+                        loginSuccess.style.display = 'block';
+                        setTimeout(() => {
+                            loginModal.style.display = 'none';
+                        }, 2000);
+                    })
+                    .catch((error) => {
+                        showSpinner(loginButton, false);
+                        loginError.textContent = error.message;
+                        loginError.style.display = 'block';
+                    });
+            });
+
+            // Signup form submission
+            const signupForm = document.getElementById('signup-form');
+            const signupButton = signupForm.querySelector('button');
+            const signupError = signupModal.querySelector('.error');
+            const signupSuccess = signupModal.querySelector('.success');
+
+            signupForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                const confirmPassword = document.getElementById('signup-confirm-password').value;
+
+                if (password !== confirmPassword) {
+                    signupError.textContent = 'Passwords do not match.';
+                    signupError.style.display = 'block';
+                    return;
+                }
+
+                signupError.style.display = 'none';
+                signupSuccess.style.display = 'none';
+                showSpinner(signupButton, true);
+
+                auth.createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        userCredential.user.updateProfile({
+                            displayName: name
+                        });
+                        db.collection('users').doc(userCredential.user.uid).set({
+                            name: name,
+                            email: email
+                        });
+                        showSpinner(signupButton, false);
+                        signupSuccess.textContent = 'Sign up successful!';
+                        signupSuccess.style.display = 'block';
+                        setTimeout(() => {
+                            signupModal.style.display = 'none';
+                        }, 2000);
+                    })
+                    .catch((error) => {
+                        showSpinner(signupButton, false);
+                        signupError.textContent = error.message;
+                        signupError.style.display = 'block';
+                    });
+            });
+        });
+    </script>
 </body>
 </html>

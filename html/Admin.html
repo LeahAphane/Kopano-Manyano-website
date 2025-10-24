@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kopano Manyano - Admin Panel</title>
+    <style>
+        /* Enhanced Creative Styles - Building on Provided CSS */
+        :root {
+            --primary-color: #ef4444;
+            --secondary-color: #1f2937;
+            --background-color: #fef3e8;
+            --accent-color: #f97316;
+            --text-color: #111827;
+            --gradient-bg: linear-gradient(135deg, #ef4444, #f97316, #1f2937);
+        }
+
+        /* Body with Subtle Gradient Overlay */
+        body {
+            background: linear-gradient(to bottom, var(--background-color), #fff7ed) fixed;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Creative Particle Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.5), transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(239,68,68,0.3), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(249,115,22,0.4), transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(31,41,55,0.2), transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: float 20s infinite linear;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-20px); }
+        }
+
+        /* Dark Theme Enhancements */
+        .dark-theme {
+            background: linear-gradient(to bottom, var(--secondary-color), #111827) fixed;
+            color: #f9fafb;
+        }
+
+        .dark-theme::before {
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.1), transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(220,38,38,0.2), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(249,115,22,0.1), transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(75,85,99,0.1), transparent);
+        }
+
+        /* Header with Gradient and Glow */
+        #top-header {
+            background: var(--gradient-bg);
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(239,68,68,0.3);
+        }
+
+        #top-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            width: 8rem;
+            height: auto;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg) scale(1.1);
+            box-shadow: 0 0 30px rgba(255,255,255,0.8);
+        }
+
+        /* Enhanced Sidebar with Accordion Feel */
+        .sidebar {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            height: calc(100vh - 80px);
+            width: 280px;
+            background: rgba(31,41,55,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 900;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow-y: auto;
+            box-shadow: 2px 0 20px rgba(0,0,0,0.2);
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 2rem 0;
+            margin: 0;
+        }
+
+        .sidebar li {
+            padding: 1rem 1.5rem;
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .sidebar li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: var(--gradient-bg);
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+
+        .sidebar li:hover::before {
+            width: 100%;
+        }
+
+        .sidebar a {
+            color: #f9fafb;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            color: var(--accent-color);
+            transform: translateX(10px);
+        }
+
+        .sidebar a i {
+            margin-right: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        /* Main Content with Creative Layout */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+            min-height: 100vh;
+            transition: margin-left 0.4s ease;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+        }
+
+        /* Creative Dashboard Cards with 3D Hover */
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(239,68,68,0.1);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: var(--gradient-bg);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(239,68,68,0.2);
+        }
+
+        .stat-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-card p {
+            margin: 0.5rem 0 0;
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+        }
+
+        .dark-theme .stat-card {
+            background: #374151;
+            border-color: rgba(239,68,68,0.3);
+        }
+
+        .dark-theme .stat-card p {
+            color: #f9fafb;
+        }
+
+        /* Recent Items Carousel */
+        .recent-carousel {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding: 1rem 0;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+
+        .recent-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .recent-item {
+            flex: 0 0 300px;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            scroll-snap-align: start;
+        }
+
+        .recent-item:hover {
+            transform: scale(1.05);
+        }
+
+        /* Enhanced Buttons with Pulse */
+        .btn-primary {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            background: transparent;
+            color: var(--primary-color);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239,68,68,0.4);
+        }
+
+        /* Tables with Alternating Rows */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        th {
+            background: var(--gradient-bg);
+            background-size: 200% 200%;
+            animation: gradientShift 5s ease infinite;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: rgba(239,68,68,0.05);
+        }
+
+        tr:hover {
+            background: rgba(239,68,68,0.1);
+            transform: scale(1.01);
+        }
+
+        .dark-theme table {
+            background: #374151;
+        }
+
+        .dark-theme tr:nth-child(even) {
+            background: rgba(75,85,99,0.5);
+        }
+
+        .dark-theme tr:hover {
+            background: rgba(239,68,68,0.2);
+        }
+
+        /* Forms with Creative Inputs */
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid rgba(239,68,68,0.2);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: white;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(239,68,68,0.1);
+            outline: none;
+            transform: scale(1.02);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        /* Sections with Fade-In */
+        section {
+            padding: 3rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-bg);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            text-align: center;
+            animation: pulse-slow 3s infinite;
+        }
+
+        /* Event List with Cards */
+        .event-item {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .event-item::after {
+            content: '✨';
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            font-size: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .event-item:hover::after {
+            opacity: 1;
+        }
+
+        .event-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Responsive Grid for Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        /* Empty State Styles */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Additional Animations */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes fade-in-up {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in-up {
+            animation: fade-in-up 1.2s ease-out both;
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Header -->
+    <header id="top-header">
+        <div class="container">
+            <div class="logo">
+                <img src="path/to/kopano-logo.png" alt="Kopano Manyano Logo" style="width: 100%; height: auto; border-radius: 50%;">
+            </div>
+            <nav style="display: flex; align-items: center; gap: 1rem;">
+                <button id="toggle-dark" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">🌙 Dark Mode</button>
+                <button id="menu-toggle" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">☰ Menu</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Creative Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="#dashboard" class="active"><i>📊</i> Dashboard</a></li>
+            <li><a href="#content"><i>✏️</i> Manage Content</a></li>
+            <li><a href="#donations"><i>💰</i> Donations</a></li>
+            <li><a href="#events"><i>📅</i> Events</a></li>
+            <li><a href="#users"><i>👥</i> Users</a></li>
+            <li><a href="#settings"><i>⚙️</i> Settings</a></li>
+            <li style="margin-top: auto; padding-top: 2rem; border-top: 1px solid #4b5563;"><a href="#" class="text-danger"><i>🚪</i> Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="animate-fade-in-up">
+            <h2>Welcome to Your Impact Hub</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>0</h3>
+                    <p>Lives Touched</p>
+                </div>
+                <div class="stat-card">
+                    <h3>0</h3>
+                    <p>Active Hearts</p>
+                </div>
+                <div class="stat-card">
+                    <h3>0</h3>
+                    <p>Hope Events</p>
+                </div>
+                <div class="stat-card">
+                    <h3>R0</h3>
+                    <p>Shared Joy</p>
+                </div>
+            </div>
+            <div style="display: flex; gap: 2rem; margin-top: 2rem;">
+                <div style="flex: 1;">
+                    <h3 style="margin-bottom: 1rem; color: var(--secondary-color);">Recent Sparks of Kindness</h3>
+                    <div class="empty-state">
+                        <i>💫</i>
+                        <p>No recent donations yet. Be the first to spark change!</p>
+                    </div>
+                </div>
+                <div class="quick-actions" style="flex: 1;">
+                    <h3 style="margin-bottom: 1rem; color: var(--secondary-color);">Ignite Action</h3>
+                    <a href="#" class="btn-primary">✨ Add New Event</a>
+                    <a href="#" class="btn-primary">📧 Spread Inspiration</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Management -->
+        <section id="content" style="display: none;">
+            <h2>Stories That Inspire</h2>
+            <div class="stat-card" style="padding: 0;">
+                <div style="padding: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <span>Pages & Posts</span>
+                        <a href="#" class="btn-primary">✨ Create New</a>
+                    </div>
+                    <div class="empty-state">
+                        <i>📝</i>
+                        <p>No content entries yet. Start crafting your story!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Donations -->
+        <section id="donations" style="display: none;">
+            <h2>Generous Souls</h2>
+            <div class="stat-card" style="padding: 0;">
+                <div style="padding: 2rem;">
+                    <p style="margin-bottom: 1rem;">Tracking the flow of compassion. Connect to gateways for real magic.</p>
+                    <div class="empty-state">
+                        <i>💰</i>
+                        <p>No donations recorded yet. Your gateway to generosity awaits integration.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events -->
+        <section id="events" style="display: none;">
+            <h2>Gatherings of Hope</h2>
+            <div class="stat-card" style="padding: 0;">
+                <div style="padding: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <span>Upcoming Gatherings</span>
+                        <a href="#" class="btn-primary">🌟 Plan New</a>
+                    </div>
+                    <div class="empty-state">
+                        <i>📅</i>
+                        <p>No events scheduled yet. Let's plan the next moment of connection!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Users -->
+        <section id="users" style="display: none;">
+            <h2>Our Community of Changemakers</h2>
+            <div class="stat-card" style="padding: 0;">
+                <div style="padding: 2rem;">
+                    <div class="empty-state">
+                        <i>👥</i>
+                        <p>No users or volunteers added yet. Invite your team to join the mission!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings -->
+        <section id="settings" style="display: none;">
+            <h2>Shape the Journey</h2>
+            <div class="stat-card">
+                <form style="max-width: 500px;">
+                    <label class="form-label">Site Beacon</label>
+                    <input type="text" class="form-control" value="Kopano Manyano - Empowering Communities">
+                    <label class="form-label">Echo Notifications</label>
+                    <select class="form-control">
+                        <option>🌟 Enabled</option>
+                        <option>😴 Disabled</option>
+                    </select>
+                    <button type="submit" class="btn-primary" style="margin-top: 1rem; width: 100%;">💫 Save Magic</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Navigation with Visibility
+        document.querySelectorAll('.sidebar a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = e.target.getAttribute('href').substring(1);
+                document.querySelectorAll('section').forEach(sec => {
+                    sec.style.display = 'none';
+                    sec.classList.remove('visible');
+                });
+                const section = document.getElementById(target);
+                section.style.display = 'block';
+                setTimeout(() => section.classList.add('visible'), 100);
+                document.querySelector('.sidebar a.active').classList.remove('active');
+                e.target.classList.add('active');
+                if (window.innerWidth <= 768) {
+                    document.getElementById('sidebar').classList.remove('open');
+                }
+            });
+        });
+
+        // Mobile Toggle
+        document.getElementById('menu-toggle').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        // Dark Theme
+        document.getElementById('toggle-dark').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.body.classList.toggle('dark-theme');
+            const btn = e.target;
+            btn.textContent = document.body.classList.contains('dark-theme') ? '☀️ Light Mode' : '🌙 Dark Mode';
+        });
+
+        // Intersection Observer for Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        });
+        document.querySelectorAll('section').forEach(sec => observer.observe(sec));
+
+        // Update button text on load
+        if (document.body.classList.contains('dark-theme')) {
+            document.getElementById('toggle-dark').textContent = '☀️ Light Mode';
+        }
+    </script>
+</body>
+</html>

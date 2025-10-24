@@ -1,11 +1,7 @@
 <?php
 session_start();
 require_once 'auto_login.php';
-
-if (!isset($_SESSION['user_id'])) {
-    header('Location: /My%20Website/php/login.php?error=' . urlencode('Please log in to access this page.'));
-    exit;
-}
+$isLoggedIn = isset($_SESSION['user_id']);
 ?>
 
 <!DOCTYPE html>
@@ -28,8 +24,6 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="../css/Home Page.css">
 </head>
 <body class="font-sans text-gray-900 bg-gray-50 smooth-scroll">
-    <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
-    <a href="/My%20Website/php/logout.php">Logout</a>
     <!-- Header Section -->
     <header class="bg-gradient-to-r from-[var(--primary-color)] to-gray-900 text-white fixed w-full top-0 z-50 transition-all duration-300" role="banner" aria-label="Main navigation">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -62,13 +56,12 @@ if (!isset($_SESSION['user_id'])) {
                     <li><a href="Gallery.html" class="btn-primary" aria-label="Gallery">Gallery</a></li>
                     <li><a href="Contact Us.html" class="btn-primary" aria-label="Contact">Contact</a></li>
                     <li><a href="Donate.html" class="btn-primary" aria-label="Donate">Donate</a></li>
-                     <li><a href="../php/signup.php"class="btn-primary" aria-label="Donate">S</a></li>
-                      <li><a href="../php/login.php" class="btn-primary" aria-label="Donate">L</a></li>
-                   
+                    <?php if ($isLoggedIn): ?>
+                    <li><a href="../php/profile.php" class="btn-primary" aria-label="Profile">Profile</a></li>
+                    <li><a href="/My%20Website/php/logout.php" class="btn-primary" aria-label="Logout">Logout</a></li>
+                    <?php endif; ?>
                 </ul>
                 <button class="theme-toggle ml-4 text-2xl" aria-label="Toggle dark theme"><i class="fas fa-moon"></i></button>
-            </nav>
-                </ul>
             </nav>
         </div>
     </header>
@@ -76,17 +69,22 @@ if (!isset($_SESSION['user_id'])) {
     <!-- Accessibility Skip Link -->
     <a href="#main-content" class="skip-link absolute left-0 top-0 bg-[var(--primary-color)] text-white px-4 py-2 z-50 focus:translate-y-0 -translate-y-full transition-transform duration-200">Skip to main content</a>
 
-    <!-- Chat Widget -->
-    <div class="chat-widget fixed bottom-4 right-4 bg-[var(--primary-color)] text-gray-900 p-3 rounded-full cursor-pointer z-50 shadow-lg" aria-label="Open chat" tabindex="0"><i class="fas fa-comment"></i></div>
-    <div class="chat-box hidden fixed bottom-16 right-4 w-80 bg-white rounded-lg shadow-lg p-4 z-50" id="chat-box" role="dialog" aria-label="Chat support" aria-modal="true">
-        <h3 class="text-lg font-semibold">Need Help?</h3>
-        <div class="space-y-2">
-            <button class="w-full bg-[var(--primary-color)] text-gray-900 py-2 rounded-md hover:bg-red-600 transition-colors" data-action="donate">How to Donate?</button>
-            <button class="w-full bg-[var(--primary-color)] text-gray-900 py-2 rounded-md hover:bg-red-600 transition-colors" data-action="volunteer">Volunteer Info</button>
-            <button class="w-full bg-[var(--primary-color)] text-gray-900 py-2 rounded-md hover:bg-red-600 transition-colors" data-action="contact">Contact Us</button>
+    <!-- AI Chat Widget -->
+    <div class="chat-widget fixed bottom-4 right-4 bg-[var(--primary-color)] text-gray-900 p-3 rounded-full cursor-pointer z-50 shadow-lg" aria-label="Open AI chat" tabindex="0"><i class="fas fa-comment"></i></div>
+    <div class="chat-box hidden fixed bottom-16 right-4 w-96 bg-white rounded-lg shadow-xl p-4 z-50 border border-gray-200" id="chat-box" role="dialog" aria-label="AI Chat Assistant" aria-modal="true">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold text-gray-800">AI Assistant - How can I help?</h3>
+            <button class="chat-close text-gray-500 hover:text-red-600 text-xl" aria-label="Close chat">&times;</button>
         </div>
-        <p id="chat-response" class="mt-2" aria-live="polite"></p>
-        <button class="chat-close absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl" aria-label="Close chat">&times;</button>
+        <div id="chat-messages" class="space-y-2 mb-4 max-h-48 overflow-y-auto bg-gray-50 p-2 rounded" aria-live="polite">
+            <div class="message bot-message bg-blue-100 p-2 rounded">
+                <strong>AI:</strong> Hello! I'm here to answer questions about donations, volunteering, or our services. Ask away!
+            </div>
+        </div>
+        <div class="flex space-x-2">
+            <input type="text" id="chat-input" placeholder="Type your message..." class="flex-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" aria-label="Chat input">
+            <button id="send-message" class="px-4 py-2 bg-[var(--primary-color)] text-gray-900 rounded hover:bg-red-600 transition-colors">Send</button>
+        </div>
     </div>
 
     <!-- Announcement Banner -->
@@ -96,385 +94,393 @@ if (!isset($_SESSION['user_id'])) {
     </div>
 
     <!-- Main Content -->
-<!-- Main Content -->
-<section 
-  class="relative h-[90vh] w-full mt-16 overflow-hidden"
-  id="hero" 
-  role="region" 
-  aria-label="Hero section"
->
-  <!-- Fullscreen carousel background -->
-  <div id="carouselImages" class="absolute inset-0 w-full h-full z-0">
-    <img src="../Images/HAND1.jpg" class="carousel-image absolute inset-0 w-full h-full object-cover opacity-100 transition-opacity duration-1000" alt="Slide 1">
-    <img src="../Images/ALBINISM5.jpg" class="carousel-image absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000" alt="Slide 2">
-    <img src="../Images/NO DRUGS.jpg" class="carousel-image absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000" alt="Slide 3">
-  </div>
+    <main id="main-content">
+        <!-- Hero Section with Enhanced CTA -->
+        <section 
+          class="relative h-[90vh] w-full mt-16 overflow-hidden"
+          id="hero" 
+          role="region" 
+          aria-label="Hero section"
+        >
+          <!-- Fullscreen carousel background -->
+          <div id="carouselImages" class="absolute inset-0 w-full h-full z-0">
+            <img src="../Images/HAND1.jpg" class="carousel-image absolute inset-0 w-full h-full object-cover opacity-100 transition-opacity duration-1000" alt="Slide 1">
+            <img src="../Images/ALBINISM5.jpg" class="carousel-image absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000" alt="Slide 2">
+            <img src="../Images/NO DRUGS.jpg" class="carousel-image absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000" alt="Slide 3">
+          </div>
 
-  <!-- Content container full width and height -->
-  <div class="relative z-10 flex items-center justify-center h-full w-full px-4">
-    <div class="backdrop-blur-sm bg-black/40 p-6 rounded-xl max-w-3xl text-center text-white">
-      <h1 class="text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">
-        Hope for a Better Tomorrow
-      </h1>
-      <p class="text-lg md:text-2xl mb-6 max-w-xl mx-auto leading-relaxed">
-        Join us in transforming lives—providing warmth, dignity, and shelter to the vulnerable in Gauteng.
-      </p>
-      <div class="flex flex-col md:flex-row gap-4 justify-center">
-        <a href="Donate.html" 
-           class="px-6 py-3 bg-[var(--primary-color)] text-gray-900 rounded-full font-bold hover:bg-red-600 transition-colors duration-300" 
-           aria-label="Donate now">
-           Donate Now
-        </a>
-        <a href="Volunteer.html" 
-           class="px-6 py-3 border-2 border-white rounded-full font-bold hover:bg-white hover:text-[var(--primary-color)] transition-all duration-300" 
-           aria-label="Volunteer with us">
-           Become a Volunteer
-        </a>
-      </div>
+          <!-- Content container full width and height -->
+          <div class="relative z-10 flex items-center justify-center h-full w-full px-4">
+            <div class="backdrop-blur-sm bg-black/40 p-6 rounded-xl max-w-3xl text-center text-white">
+              <h1 class="text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">
+                Hope for a Better Tomorrow
+              </h1>
+              <p class="text-lg md:text-2xl mb-6 max-w-xl mx-auto leading-relaxed">
+                Join us in transforming lives—providing warmth, dignity, and shelter to the vulnerable in Gauteng.
+              </p>
+              <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="Donate.html" 
+                   class="px-6 py-3 bg-[var(--primary-color)] text-gray-900 rounded-full font-bold hover:bg-red-600 transition-colors duration-300" 
+                   aria-label="Donate now">
+                   Donate Now
+                </a>
+                <a href="Volunteer.html" 
+                   class="px-6 py-3 border-2 border-white rounded-full font-bold hover:bg-white hover:text-[var(--primary-color)] transition-all duration-300" 
+                   aria-label="Volunteer with us">
+                   Become a Volunteer
+                </a>
+              </div>
 
-      <div class="mt-8 text-sm md:text-base italic text-gray-200">
-        Over <strong>200</strong> lives touched through your support.
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-
-
-        <!-- Mission Content -->
-        <!-- Mission Content -->
-<section id="mission" class="relative py-24 bg-gradient-to-b from-white to-gray-50 overflow-hidden" role="region" aria-label="Our Mission">
-    <div class="container mx-auto px-6 lg:px-12">
-        <!-- Mission Header -->
-        <div class="text-center mb-12">
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 animate-fade-in">Our Mission</h2>
-            <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-fade-in-delay">
-                Empowering communities through compassion, support, and sustainable solutions.
-            </p>
-        </div>
-
-        <!-- Image Gallery with Overlay -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="relative group overflow-hidden rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-500">
-                <img 
-                    src="../Images/kopano.jpeg" 
-                    alt="Community support initiative" 
-                    class="w-full h-[350px] object-cover transition-opacity duration-300 group-hover:opacity-80" 
-                    loading="lazy"
-                >
-                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300 flex items-center justify-center">
-                    <p class="text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        Building Stronger Communities
-                    </p>
-                </div>
+              <div class="mt-8 text-sm md:text-base italic text-gray-200">
+                Over <strong>200</strong> lives touched through your support.
+              </div>
             </div>
-            <div class="relative group overflow-hidden rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-500">
-                <img 
-                    src="../Images/tent.jpg" 
-                    alt="Temporary shelter program" 
-                    class="w-full h-[350px] object-cover transition-opacity duration-300 group-hover:opacity-80" 
-                    loading="lazy"
-                >
-                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300 flex items-center justify-center">
-                    <p class="text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        Providing Safe Havens
-                    </p>
-                </div>
-            </div>
-            <div class="relative group overflow-hidden rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-500">
-                <img 
-                    src="../Images/street.png" 
-                    alt="Street outreach support" 
-                    class="w-full h-[350px] object-cover transition-opacity duration-300 group-hover:opacity-80" 
-                    loading="lazy"
-                >
-                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300 flex items-center justify-center">
-                    <p class="text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        Reaching Those in Need
-                    </p>
-                </div>
-            </div>
-        </div>
+          </div>
+        </section>
 
-        <!-- Call to Action -->
-        <div class="text-center mt-12 animate-fade-in-delay">
-            <a 
-                href="Volunteer.html"
-                class="inline-block px-8 py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-colors duration-300"
-                aria-label="Learn how to get involved with our mission"
-            >
-                Join Our Mission
-            </a>
-             <!-- Mission Content -->
-            <div>
-                <div class="relative z-10 bg-white/80 backdrop-blur-md py-16 px-4 rounded-xl shadow-xl max-w-4xl mx-auto text-center"> 
-
-                    <div class="w-24 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
-                    <p class="mb-6 text-lg text-gray-800">
-                      Kopano Manyano is a non-profit organization committed to restoring the dignity and potential of homeless and vulnerable individuals in Gauteng and beyond. 
-                      Our mission is to provide more than just shelter and food — we aim to empower individuals with the tools, care, and guidance necessary to transition from 
-                      crisis to stability, and from dependency to self-reliance. By fostering a supportive environment and holistic development programs, 
-                      we help people reclaim their lives and contribute meaningfully to society. We believe in hope, humanity, and second chances.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <!-- Custom CSS for Animations -->
-    <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-            animation: fadeIn 1s ease-out forwards;
-        }
-        .animate-fade-in-delay {
-            animation: fadeIn 1s ease-out 0.3s forwards;
-            opacity: 0;
-        }
-    </style>
-</section>
-
-            <!-- Success Stories Section -->
-<section id="success-stories" class="py-16 bg-white" role="region" aria-label="Success Stories">
-    <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-4">Some of Our <span class="text-[var(--primary-color)]">Success Stories</span></h2>
-        <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
-        <div class="success-slider">
-            <div class="slider-container">
-                <div class="slide">
-                    <video controls>
-                        <source type="video/mp4" src="../Videos/Feeding.mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="slide">
-                    <video controls>
-                        <source type="video/mp4" src="../Videos/Feeding1.mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="slide">
-                    <img src="../Images/feed1.jpg" alt="Volunteers distributing meals to the homeless in Gauteng" loading="lazy">
-                </div>
-                <div class="slide">
-                    <img src="../Images/giving food 2.jpg" alt="Community members receiving food support from Kopano Manyano" loading="lazy">
-                </div>
-                <div class="slide">
-                    <img src="../Images/giving food5.jpg" alt="Kopano Manyano team providing food assistance on the streets" loading="lazy">
-                </div>
-            </div>
-            <button class="slider-btn prev" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
-            <button class="slider-btn next" aria-label="Next slide"><i class="fas fa-chevron-right"></i></button>
-        </div>
-        <div class="text-center mt-6">
-            <a href="Gallery.html" class="inline-block px-6 py-3 bg-[var(--primary-color)] text-gray-900 rounded-full font-semibold hover:bg-red-600 transition-colors">See More Stories</a>
-        </div>
-    </div>
-</section>
-
-<section id="help-needy"
-         class="relative h-[800px] bg-no-repeat bg-cover bg-center overflow-hidden"
-         style="background-image: url('../Images/future.jpg');"
-         role="region"
-         aria-label="Importance of Helping the Needy">
-
-    <!-- Gradient Overlay: Black/Red blend -->
-    
-
-    <!-- Content Wrapper -->
-    <div class="container mx-auto px-4 relative z-10 h-full flex items-start pt-20">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
-
-            <!-- Left Side (Text) -->
-            <div class="text-left">
-                <!-- Heading -->
-                <h2 class="text-4xl md:text-5xl font-extrabold text-white uppercase tracking-wide drop-shadow-xl animate-fade-in mb-4">
-                    Helping the Needy Uplifts Us All
-                </h2>
-
-                <!-- Main paragraph -->
-                <p class="text-lg text-white font-light leading-relaxed drop-shadow-md animate-fade-in-delay mb-4">
-                    Every act of kindness—whether <span class="font-semibold text-red-400">sharing a meal</span>, 
-                    <span class="font-semibold text-red-400">offering shelter</span>, or <span class="font-semibold text-red-400">giving hope</span>—
-                    builds stronger communities and restores dignity. Together, we can make a <span class="text-red-500 font-bold">lasting difference</span>.
-                </p>
-
-                <!-- Sub quote -->
-                <p class="text-md text-gray-200 font-medium italic mb-6">
-                    "Even a small act of love can light someone’s entire world. Be that light."
-                </p>
-
-                <!-- Red-black feature list -->
-                <div class="mt-6">
-                    <h3 class="text-2xl font-bold text-red-500 mb-3 border-b-2 border-red-700 inline-block">Why It Matters</h3>
-                    <ul class="list-disc list-inside space-y-2 text-md font-medium text-white">
-                        <li>Restores <span class="text-red-300 font-semibold">dignity</span> to the most vulnerable</li>
-                        <li>Builds <span class="text-red-300 font-semibold">unity</span> and compassion in communities</li>
-                        <li>Creates <span class="text-red-300 font-semibold">opportunities</span> for empowerment</li>
-                        <li>Inspires a <span class="text-red-300 font-semibold">cycle of giving</span> and hope</li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-
-
-
-
-  <section id="our-services" class="py-16 bg text-Black">
-  <div class="container mx-auto px-4 max-w-6xl text-center">
-    <h2 class="text-4xl font-extrabold uppercase mb-12 border-b-4 border-red-600 inline-block pb-2">
-      Our Key Services
-    </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-      
-      <div class="bg-red-900 rounded-lg p-6 shadow-lg hover:bg-red-700 transition duration-300">
-        <div class="mb-4 text-red-400 text-5xl">
-          <!-- Use any icon library like FontAwesome or SVG here -->
-          &#128100; <!-- user icon -->
-        </div>
-        <h3 class="text-2xl font-bold mb-2">Counseling for Abuse Survivors</h3>
-        <p>Compassionate support for individuals affected by abuse to help them heal and rebuild their lives.</p>
-      </div>
-
-      <div class="bg-red-900 rounded-lg p-6 shadow-lg hover:bg-red-700 transition duration-300">
-        <div class="mb-4 text-red-400 text-5xl">
-         &#128104;&#127997; <!-- Man: medium skin tone -->
-
-        </div>
-        <h3 class="text-2xl font-bold mb-2">Albinism Awareness</h3>
-        <p>Educational programs to promote understanding, reduce stigma, and support people with albinism.</p>
-      </div>
-
-      <div class="bg-red-900 rounded-lg p-6 shadow-lg hover:bg-red-700 transition duration-300">
-        <div class="mb-4 text-red-400 text-5xl">
-          &#128138; <!-- ribbon icon -->
-        </div>
-        <h3 class="text-2xl font-bold mb-2">HIV & AIDS Counseling</h3>
-        <p>Confidential counseling and guidance for individuals affected by HIV/AIDS and their families.</p>
-      </div>
-
-      <div class="bg-red-900 rounded-lg p-6 shadow-lg hover:bg-red-700 transition duration-300">
-        <div class="mb-4 text-red-400 text-5xl">
-          &#128138; <!-- pill icon -->
-        </div>
-        <h3 class="text-2xl font-bold mb-2">Drug Abuse Counseling</h3>
-        <p>Professional support and recovery programs to help individuals overcome drug addiction.</p>
-      </div>
-
-      <div class="bg-red-900 rounded-lg p-6 shadow-lg hover:bg-red-700 transition duration-300">
-        <div class="mb-4 text-red-400 text-5xl">
-          &#128101; <!-- group icon -->
-        </div>
-        <h3 class="text-2xl font-bold mb-2">Community Outreach</h3>
-        <p>Engaging with communities to raise awareness and provide direct assistance to those in need.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-
-
-
-
-
-
-        <!-- Donation Section -->
-        <section id="donate" class="py-16 bg-white animate-slide-in" role="region" aria-label="Donation">
+        <!-- Testimonials Section - New Addition -->
+        <section id="testimonials" class="py-16 bg-gradient-to-b from-gray-50 to-white" role="region" aria-label="Testimonials">
             <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold text-center mb-4">Make a <span class="text-[var(--primary-color)]">Donation</span></h2>
+                <h2 class="text-3xl font-bold text-center mb-4">Voices of <span class="text-[var(--primary-color)]">Hope</span></h2>
+                <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-8"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <img src="../Images/quote1.jpg" alt="Testimonial 1" class="w-16 h-16 rounded-full mx-auto mb-4 object-cover">
+                        <p class="italic text-gray-600 mb-4">"Kopano Manyano gave me more than shelter—they gave me a family and a future. Grateful forever."</p>
+                        <p class="font-semibold text-[var(--primary-color)]">- Thabo M., Beneficiary</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <img src="../Images/quote2.jpg" alt="Testimonial 2" class="w-16 h-16 rounded-full mx-auto mb-4 object-cover">
+                        <p class="italic text-gray-600 mb-4">"Volunteering here has changed my perspective. Every moment counts in building stronger communities."</p>
+                        <p class="font-semibold text-[var(--primary-color)]">- Sarah K., Volunteer</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <img src="../Images/quote3.jpg" alt="Testimonial 3" class="w-16 h-16 rounded-full mx-auto mb-4 object-cover">
+                        <p class="italic text-gray-600 mb-4">"A simple donation turned into meals for 50 families. Seeing the smiles makes it all worthwhile."</p>
+                        <p class="font-semibold text-[var(--primary-color)]">- John D., Donor</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission Content -->
+        <section id="mission" class="relative py-24 bg-gradient-to-b from-white to-gray-50 overflow-hidden" role="region" aria-label="Our Mission">
+            <div class="container mx-auto px-6 lg:px-12">
+                <!-- Mission Header -->
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 animate-fade-in">Our Mission</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-fade-in-delay">
+                        Empowering communities through compassion, support, and sustainable solutions.
+                    </p>
+                </div>
+
+                <!-- Image Gallery with Overlay -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="relative group overflow-hidden rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-500">
+                        <img 
+                            src="../Images/kopano.jpeg" 
+                            alt="Community support initiative" 
+                            class="w-full h-[350px] object-cover transition-opacity duration-300 group-hover:opacity-80" 
+                            loading="lazy"
+                        >
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300 flex items-center justify-center">
+                            <p class="text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                Building Stronger Communities
+                            </p>
+                        </div>
+                    </div>
+                    <div class="relative group overflow-hidden rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-500">
+                        <img 
+                            src="../Images/tent.jpg" 
+                            alt="Temporary shelter program" 
+                            class="w-full h-[350px] object-cover transition-opacity duration-300 group-hover:opacity-80" 
+                            loading="lazy"
+                        >
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300 flex items-center justify-center">
+                            <p class="text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                Providing Safe Havens
+                            </p>
+                        </div>
+                    </div>
+                    <div class="relative group overflow-hidden rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-500">
+                        <img 
+                            src="../Images/street.png" 
+                            alt="Street outreach support" 
+                            class="w-full h-[350px] object-cover transition-opacity duration-300 group-hover:opacity-80" 
+                            loading="lazy"
+                        >
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300 flex items-center justify-center">
+                            <p class="text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                Reaching Those in Need
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Call to Action -->
+                <div class="text-center mt-12 animate-fade-in-delay">
+                    <a 
+                        href="Volunteer.html"
+                        class="inline-block px-8 py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-colors duration-300"
+                        aria-label="Learn how to get involved with our mission"
+                    >
+                        Join Our Mission
+                    </a>
+                     <!-- Mission Content -->
+                    <div>
+                        <div class="relative z-10 bg-white/80 backdrop-blur-md py-16 px-4 rounded-xl shadow-xl max-w-4xl mx-auto text-center"> 
+
+                            <div class="w-24 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
+                            <p class="mb-6 text-lg text-gray-800">
+                              Kopano Manyano is a non-profit organization committed to restoring the dignity and potential of homeless and vulnerable individuals in Gauteng and beyond. 
+                              Our mission is to provide more than just shelter and food — we aim to empower individuals with the tools, care, and guidance necessary to transition from 
+                              crisis to stability, and from dependency to self-reliance. By fostering a supportive environment and holistic development programs, 
+                              we help people reclaim their lives and contribute meaningfully to society. We believe in hope, humanity, and second chances.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom CSS for Animations -->
+            <style>
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                .animate-fade-in {
+                    animation: fadeIn 1s ease-out forwards;
+                }
+                .animate-fade-in-delay {
+                    animation: fadeIn 1s ease-out 0.3s forwards;
+                    opacity: 0;
+                }
+            </style>
+        </section>
+
+        <!-- Success Stories Section with Enhanced Slider -->
+        <section id="success-stories" class="py-16 bg-white" role="region" aria-label="Success Stories">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-4">Some of Our <span class="text-[var(--primary-color)]">Success Stories</span></h2>
                 <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
-                <div class="max-w-md mx-auto">
-                    <form id="donation-form" class="space-y-4" action="/My%20Website/php/submit_donation.php" method="POST" novalidate>
-                        <input type="hidden" name="csrf_token" value="DUMMY_CSRF_TOKEN">
-                        <div>
-                            <label for="donation-name" class="sr-only">Full Name</label>
-                            <input type="text" id="donation-name" name="name" placeholder="Full Name" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Full name">
-                            <div class="error-message text-red-600 text-sm mt-1 hidden" id="name-error" role="alert"></div>
+                <div class="success-slider">
+                    <div class="slider-container">
+                        <div class="slide">
+                            <video controls>
+                                <source type="video/mp4" src="../Videos/Feeding.mp4">
+                                Your browser does not support the video tag.
+                            </video>
                         </div>
-                        <div>
-                            <label for="donation-email" class="sr-only">Email</label>
-                            <input type="email" id="donation-email" name="email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Email address">
-                            <div class="error-message text-red-600 text-sm mt-1 hidden" id="email-error" role="alert"></div>
+                        <div class="slide">
+                            <video controls>
+                                <source type="video/mp4" src="../Videos/Feeding1.mp4">
+                                Your browser does not support the video tag.
+                            </video>
                         </div>
-                        <div>
-                            <label for="donation-amount" class="sr-only">Donation Amount</label>
-                            <select id="donation-amount" name="amount" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Donation amount">
-                                <option value="" disabled selected>Select Amount (ZAR)</option>
-                                <option value="50">R50</option>
-                                <option value="100">R100</option>
-                                <option value="custom">Custom</option>
-                            </select>
-                            <div class="error-message text-red-600 text-sm mt-1 hidden" id="amount-error" role="alert"></div>
+                        <div class="slide">
+                            <img src="../Images/feed1.jpg" alt="Volunteers distributing meals to the homeless in Gauteng" loading="lazy">
                         </div>
-                        <div>
-                            <label for="custom-amount" class="sr-only">Custom Amount</label>
-                            <input type="number" id="custom-amount" name="custom-amount" placeholder="Custom Amount" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] hidden" min="1" aria-label="Custom donation amount">
-                            <div class="error-message text-red-600 text-sm mt-1 hidden" id="custom-amount-error" role="alert"></div>
+                        <div class="slide">
+                            <img src="../Images/giving food 2.jpg" alt="Community members receiving food support from Kopano Manyano" loading="lazy">
                         </div>
-                        <button type="submit" class="w-full p-3 bg-[var(--primary-color)] text-gray-900 rounded-md hover:bg-red-600 transition-colors font-semibold" aria-label="Submit donation">Donate</button>
-                        <div class="success-message bg-green-500 text-white p-3 rounded-md hidden" id="donation-success" role="alert"></div>
-                    </form>
+                        <div class="slide">
+                            <img src="../Images/giving food5.jpg" alt="Kopano Manyano team providing food assistance on the streets" loading="lazy">
+                        </div>
+                    </div>
+                    <button class="slider-btn prev" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
+                    <button class="slider-btn next" aria-label="Next slide"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="text-center mt-6">
+                    <a href="Gallery.html" class="inline-block px-6 py-3 bg-[var(--primary-color)] text-gray-900 rounded-full font-semibold hover:bg-red-600 transition-colors">See More Stories</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="help-needy"
+                 class="relative h-[800px] bg-no-repeat bg-cover bg-center overflow-hidden"
+                 style="background-image: url('../Images/future.jpg');"
+                 role="region"
+                 aria-label="Importance of Helping the Needy">
+
+            <!-- Content Wrapper -->
+            <div class="container mx-auto px-4 relative z-10 h-full flex items-start pt-20">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+
+                    <!-- Left Side (Text) -->
+                    <div class="text-left">
+                        <!-- Heading -->
+                        <h2 class="text-4xl md:text-5xl font-extrabold text-white uppercase tracking-wide drop-shadow-xl animate-fade-in mb-4">
+                            Helping the Needy Uplifts Us All
+                        </h2>
+
+                        <!-- Main paragraph -->
+                        <p class="text-lg text-white font-light leading-relaxed drop-shadow-md animate-fade-in-delay mb-4">
+                            Every act of kindness—whether <span class="font-semibold text-red-400">sharing a meal</span>, 
+                            <span class="font-semibold text-red-400">offering shelter</span>, or <span class="font-semibold text-red-400">giving hope</span>—
+                            builds stronger communities and restores dignity. Together, we can make a <span class="text-red-500 font-bold">lasting difference</span>.
+                        </p>
+
+                        <!-- Sub quote -->
+                        <p class="text-md text-gray-200 font-medium italic mb-6">
+                            "Even a small act of love can light someone’s entire world. Be that light."
+                        </p>
+
+                        <!-- Red-black feature list -->
+                        <div class="mt-6">
+                            <h3 class="text-2xl font-bold text-red-500 mb-3 border-b-2 border-red-700 inline-block">Why It Matters</h3>
+                            <ul class="list-disc list-inside space-y-2 text-md font-medium text-white">
+                                <li>Restores <span class="text-red-300 font-semibold">dignity</span> to the most vulnerable</li>
+                                <li>Builds <span class="text-red-300 font-semibold">unity</span> and compassion in communities</li>
+                                <li>Creates <span class="text-red-300 font-semibold">opportunities</span> for empowerment</li>
+                                <li>Inspires a <span class="text-red-300 font-semibold">cycle of giving</span> and hope</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="our-services" class="py-16 bg text-Black">
+          <div class="container mx-auto px-4 max-w-6xl text-center">
+            <h2 class="text-4xl font-extrabold uppercase mb-12 border-b-4 border-red-600 inline-block pb-2">
+              Our Key Services
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+              
+              <div class="bg-red-900 rounded-lg p-6 shadow-lg hover:bg-red-700 transition duration-300">
+                <div class="mb-4 text-red-400 text-5xl">
+                  <!-- Use any icon library like FontAwesome or SVG here -->
+                  &#128100; <!-- user icon -->
+                </div>
+                <h3 class="text-2xl font-bold mb-2">Counseling for Abuse Survivors</h3>
+                <p>Compassionate support for individuals affected by abuse to help them heal and rebuild their lives.</p>
+              </div>
+
+              <div class="bg-red-900 rounded-lg p-6 shadow-lg hover:bg-red-700 transition duration-300">
+                <div class="mb-4 text-red-400 text-5xl">
+                 &#128104;&#127997; <!-- Man: medium skin tone -->
+
+                </div>
+                <h3 class="text-2xl font-bold mb-2">Albinism Awareness</h3>
+                <p>Educational programs to promote understanding, reduce stigma, and support people with albinism.</p>
+              </div>
+
+              <div class="bg-red-900 rounded-lg p-6 shadow-lg hover:bg-red-700 transition duration-300">
+                <div class="mb-4 text-red-400 text-5xl">
+                  &#128138; <!-- ribbon icon -->
+                </div>
+                <h3 class="text-2xl font-bold mb-2">HIV & AIDS Counseling</h3>
+                <p>Confidential counseling and guidance for individuals affected by HIV/AIDS and their families.</p>
+              </div>
+
+              <div class="bg-red-900 rounded-lg p-6 shadow-lg hover:bg-red-700 transition duration-300">
+                <div class="mb-4 text-red-400 text-5xl">
+                  &#128138; <!-- pill icon -->
+                </div>
+                <h3 class="text-2xl font-bold mb-2">Drug Abuse Counseling</h3>
+                <p>Professional support and recovery programs to help individuals overcome drug addiction.</p>
+              </div>
+
+              <div class="bg-red-900 rounded-lg p-6 shadow-lg hover:bg-red-700 transition duration-300">
+                <div class="mb-4 text-red-400 text-5xl">
+                  &#128101; <!-- group icon -->
+                </div>
+                <h3 class="text-2xl font-bold mb-2">Community Outreach</h3>
+                <p>Engaging with communities to raise awareness and provide direct assistance to those in need.</p>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- Donation Impact Section -->
+        <section id="donate" class="py-16 bg-white animate-slide-in" role="region" aria-label="Donation Impact">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-4">Your <span class="text-[var(--primary-color)]">Donation Makes a Difference</span></h2>
+                <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
+                <div class="max-w-4xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="text-center p-6 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl shadow-md border border-yellow-200">
+                            <i class="fas fa-utensils text-4xl text-orange-500 mb-4"></i>
+                            <h3 class="text-xl font-semibold mb-2">R50: Nourish a Soul</h3>
+                            <p class="text-gray-700">Provides a hot, nutritious meal for a family in crisis, fueling their strength to face the day with renewed hope.</p>
+                        </div>
+                        <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-md border border-blue-200">
+                            <i class="fas fa-bed text-4xl text-blue-500 mb-4"></i>
+                            <h3 class="text-xl font-semibold mb-2">R200: A Safe Night's Rest</h3>
+                            <p class="text-gray-700">Funds a warm bed and blanket for one night, offering vulnerable individuals the security to dream of brighter tomorrows.</p>
+                        </div>
+                        <div class="text-center p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl shadow-md border border-green-200">
+                            <i class="fas fa-heart text-4xl text-emerald-500 mb-4"></i>
+                            <h3 class="text-xl font-semibold mb-2">R500: Empower a Life</h3>
+                            <p class="text-gray-700">Supports counseling sessions and skill-building workshops, helping someone rebuild their path to independence and dignity.</p>
+                        </div>
+                    </div>
+                    <?php if ($isLoggedIn): ?>
+                    <div class="text-center">
+                        <a href="Donate.html" class="inline-block px-8 py-3 bg-[var(--primary-color)] text-gray-900 rounded-full font-semibold hover:bg-red-600 transition-colors">Start Donating Today</a>
+                    </div>
+                    <?php else: ?>
+                    <div class="text-center p-8 bg-yellow-50 border border-yellow-200 rounded-md">
+                        <h3 class="text-xl font-bold mb-2">Ready to Make an Impact?</h3>
+                        <p class="mb-4">Please <a href="../php/login.php" class="text-[var(--primary-color)] hover:underline">login</a> if you have an account or <a href="../php/signup.php" class="text-[var(--primary-color)] hover:underline">sign up</a> to contribute securely.</p>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>
 
         <section id="donation-progress" class="py-16 bg-white" role="region" aria-label="Donation Progress">
-    <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-4">Our <span class="text-[var(--primary-color)]">Fundraising Goal</span></h2>
-        <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
-        <div class="max-w-lg mx-auto">
-            <p class="text-center mb-4">Help us reach R50,000 to support our programs!</p>
-            <div class="w-full bg-gray-200 rounded-full h-6">
-                <div id="progress-bar" class="bg-[var(--primary-color)] h-6 rounded-full transition-all duration-500" style="width: 0%"></div>
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-4">Our <span class="text-[var(--primary-color)]">Fundraising Goal</span></h2>
+            <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
+            <div class="max-w-lg mx-auto">
+                <p class="text-center mb-4">Help us reach R50,000 to support our programs!</p>
+                <div class="w-full bg-gray-200 rounded-full h-6">
+                    <div id="progress-bar" class="bg-[var(--primary-color)] h-6 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <p class="text-center mt-2 font-semibold" id="progress-text">R0 raised of R50,000</p>
             </div>
-            <p class="text-center mt-2 font-semibold" id="progress-text">R0 raised of R50,000</p>
         </div>
-    </div>
-</section>
+    </section>
 
-        <!-- Volunteer Section -->
-<section id="volunteer" class="py-16 bg-gray-100 animate-slide-in" role="region" aria-label="Volunteer">
-    <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-4">Become a <span class="text-[var(--primary-color)]">Volunteer</span></h2>
-        <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
-        <div class="max-w-md mx-auto">
-            <form id="volunteer-form" action="/My%20Website/php/volunteer_process.php" method="POST" class="space-y-4" novalidate>
-                <div>
-                    <label for="volunteer-name" class="sr-only">Full Name</label>
-                    <input type="text" id="volunteer-name" name="name" placeholder="Full Name" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Full name">
-                    <div class="error-message text-red-600 text-sm mt-1 hidden" id="volunteer-name-error" role="alert"></div>
+        <!-- Volunteer Impact Section -->
+        <section id="volunteer" class="py-16 bg-gray-100 animate-slide-in" role="region" aria-label="Volunteer Impact">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-4">Join as a <span class="text-[var(--primary-color)]">Volunteer</span> – Ignite Change</h2>
+                <div class="w-20 h-1 bg-[var(--primary-color)] mx-auto mb-6"></div>
+                <div class="max-w-4xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="text-center p-6 bg-gradient-to-br from-purple-50 to-violet-50 rounded-xl shadow-md border border-purple-200">
+                            <i class="fas fa-hands-helping text-4xl text-purple-500 mb-4"></i>
+                            <h3 class="text-xl font-semibold mb-2">Outreach Missions</h3>
+                            <p class="text-gray-700">Hit the streets with our team to distribute essentials and connect with those in need, turning awareness into action one conversation at a time.</p>
+                        </div>
+                        <div class="text-center p-6 bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl shadow-md border border-pink-200">
+                            <i class="fas fa-users text-4xl text-pink-500 mb-4"></i>
+                            <h3 class="text-xl font-semibold mb-2">Community Events</h3>
+                            <p class="text-gray-700">Organize fun, uplifting gatherings like skill-sharing workshops or family days, fostering bonds that heal and inspire lasting community spirit.</p>
+                        </div>
+                        <div class="text-center p-6 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl shadow-md border border-indigo-200">
+                            <i class="fas fa-lightbulb text-4xl text-indigo-500 mb-4"></i>
+                            <h3 class="text-xl font-semibold mb-2">Mentorship Moments</h3>
+                            <p class="text-gray-700">Guide individuals through counseling or job prep sessions, sparking personal growth and watching lives transform through your encouragement.</p>
+                        </div>
+                    </div>
+                    <?php if ($isLoggedIn): ?>
+                    <div class="text-center">
+                        <a href="Volunteer.html" class="inline-block px-8 py-3 bg-[var(--primary-color)] text-gray-900 rounded-full font-semibold hover:bg-red-600 transition-colors">Get Involved Now</a>
+                    </div>
+                    <?php else: ?>
+                    <div class="text-center p-8 bg-yellow-50 border border-yellow-200 rounded-md">
+                        <h3 class="text-xl font-bold mb-2">Ready to Ignite Change?</h3>
+                        <p class="mb-4">Please <a href="../php/login.php" class="text-[var(--primary-color)] hover:underline">login</a> if you have an account or <a href="../php/signup.php" class="text-[var(--primary-color)] hover:underline">sign up</a> to join our volunteer family.</p>
+                    </div>
+                    <?php endif; ?>
                 </div>
-                <div>
-                    <label for="volunteer-email" class="sr-only">Email</label>
-                    <input type="email" id="volunteer-email" name="email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Email address">
-                    <div class="error-message text-red-600 text-sm mt-1 hidden" id="volunteer-email-error" role="alert"></div>
-                </div>
-                <div>
-                    <label for="volunteer-phone" class="sr-only">Phone</label>
-                    <input type="tel" id="volunteer-phone" name="phone" placeholder="Phone" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]" required aria-label="Phone number">
-                    <div class="error-message text-red-600 text-sm mt-1 hidden" id="phone-error" role="alert"></div>
-                </div>
-                <button type="submit" class="w-full p-3 bg-[var(--primary-color)] text-gray-900 rounded-md hover:bg-red-600 transition-colors font-semibold" aria-label="Sign up as volunteer">Sign Up</button>
-                <div class="success-message bg-green-500 text-white p-3 rounded-md hidden" id="volunteer-success" role="alert"></div>
-            </form>
-        </div>
-    </div>
-</section>
-
-
+            </div>
+        </section>
 
         <!-- Contact Section -->
         <section id="contact" class="py-20 section-bg animate-fade-in" style="background: url('../Images/contact-bg.jpg') center/cover no-repeat fixed, var(--bg-fallback);" role="region" aria-label="Contact">
@@ -515,7 +521,6 @@ if (!isset($_SESSION['user_id'])) {
         </section>
     </main>
 
-    
     <section id="newsletter" class="py-16 bg-[var(--primary-color)] text-white" role="region" aria-label="Newsletter Signup">
     <div class="container mx-auto px-4">
         <h2 class="text-3xl font-bold text-center mb-4">Stay <span class="text-gray-900">Connected</span></h2>
@@ -570,6 +575,83 @@ if (!isset($_SESSION['user_id'])) {
     </div>
 
     <script src="../jss/Home Page.js"></script>
-</button>
+    <script>
+        // Chat functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatWidget = document.querySelector('.chat-widget');
+            const chatBox = document.getElementById('chat-box');
+            const chatClose = document.querySelector('.chat-close');
+            const sendMessage = document.getElementById('send-message');
+            const chatInput = document.getElementById('chat-input');
+            const chatMessages = document.getElementById('chat-messages');
+
+            chatWidget.addEventListener('click', function() {
+                chatBox.classList.toggle('hidden');
+            });
+
+            chatClose.addEventListener('click', function() {
+                chatBox.classList.add('hidden');
+            });
+
+            sendMessage.addEventListener('click', function() {
+                const input = chatInput.value.trim();
+                if (input) {
+                    // Add user message
+                    const userMsg = document.createElement('div');
+                    userMsg.className = 'message user-message bg-green-100 p-2 rounded text-right';
+                    userMsg.innerHTML = '<strong>You:</strong> ' + input;
+                    chatMessages.appendChild(userMsg);
+
+                    // Get AI response
+                    const response = getAIResponse(input);
+
+                    // Add bot message
+                    const botMsg = document.createElement('div');
+                    botMsg.className = 'message bot-message bg-blue-100 p-2 rounded';
+                    botMsg.innerHTML = '<strong>AI:</strong> ' + response;
+                    chatMessages.appendChild(botMsg);
+
+                    chatInput.value = '';
+                    // Scroll to bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            });
+
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage.click();
+                }
+            });
+
+            function getAIResponse(input) {
+                input = input.toLowerCase();
+                if (input.includes('donate') || input.includes('donation')) {
+                    return 'To make a donation, please visit our <a href="Donate.html" class="text-blue-600 hover:underline">Donate page</a>. Every contribution helps us provide essential services to those in need!';
+                } else if (input.includes('volunteer')) {
+                    return 'We\'d love to have you as a volunteer! Check out our <a href="Volunteer.html" class="text-blue-600 hover:underline">Volunteer page</a> for more information on how to get involved.';
+                } else if (input.includes('services') || input.includes('programs')) {
+                    return 'Our services include food assistance, shelter programs, events, volunteer opportunities, and community engagement. You can learn more by navigating through our Services menu.';
+                } else if (input.includes('contact') || input.includes('reach')) {
+                    return 'You can contact us via email at kopanomanyano51@gmail.com or phone at +27 87 265 1327. Visit our <a href="Contact Us.html" class="text-blue-600 hover:underline">Contact page</a> for more details.';
+                } else if (input.includes('about') || input.includes('mission')) {
+                    return 'Kopano Manyano is dedicated to supporting the homeless in Gauteng by providing shelter, food, and hope. Learn more on our <a href="About Us.html" class="text-blue-600 hover:underline">About page</a>.';
+                } else {
+                    return 'I\'m sorry, I didn\'t quite understand that. Could you please rephrase your question about our organization, donations, volunteering, or services?';
+                }
+            }
+
+            // Add some creativity: Random tip on load
+            const tips = [
+                'Did you know? Your donation of R50 can provide a warm meal for someone in need!',
+                'Volunteering just 4 hours a week can make a huge difference in our community.',
+                'We host monthly events - check our Events page for upcoming activities!'
+            ];
+            const randomTip = tips[Math.floor(Math.random() * tips.length)];
+            const tipMsg = document.createElement('div');
+            tipMsg.className = 'message bot-message bg-blue-100 p-2 rounded';
+            tipMsg.innerHTML = '<strong>AI Tip:</strong> ' + randomTip;
+            chatMessages.appendChild(tipMsg);
+        });
+    </script>
 </body>
 </html>

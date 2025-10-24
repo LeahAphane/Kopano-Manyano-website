@@ -3,7 +3,7 @@ session_start();
 
 // Redirect to homepage if already logged in
 if (isset($_SESSION['user_id'])) {
-    header('Location: /My%20Website/html/Home%20Page.html');
+    header('Location: /MyWebsite/html/Home%20Page.html');
     exit;
 }
 ?>
@@ -251,8 +251,8 @@ if (isset($_SESSION['user_id'])) {
             <button type="submit" id="submitBtn">Login <span class="spinner"></span></button>
         </form>
         <div class="links">
-            <a href="/My%20Website/php/signup.php">Sign up</a> |
-            <a href="/My%20Website/php/forgot_password.php">Forgot Password?</a>
+            <a href="/MyWebsite/php/signup.php">Sign up</a> |
+            <a href="/MyWebsite/php/forgot_password.php">Forgot Password?</a>
         </div>
     </div>
 

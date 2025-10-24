@@ -1,0 +1,60 @@
+<?php
+session_start();
+header('Content-Type: application/json');
+
+// Simple CSRF check (enhance as needed)
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['error' => 'Method not allowed']);
+    exit;
+}
+
+$input = json_decode(file_get_contents('php://input'), true);
+$message = trim($input['message'] ?? '');
+$user_id = $input['user_id'] ?? null;
+
+if (empty($message) || !$user_id || !isset($_SESSION['user_id']) || $_SESSION['user_id'] != $user_id) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid input or unauthorized']);
+    exit;
+}
+
+// Mock AI response logic (fast, rule-based for demo; replace with real AI API call for production)
+$responses = [
+    'donate' => 'To donate, visit our Donate page and select an amount starting from R50. Every bit helps provide shelter and food!',
+    'volunteer' => 'Volunteering is easy! Sign up on the Volunteer page with your details. We need help with outreach and events.',
+    'contact' => 'Reach us at kopanomanyano51@gmail.com or +27 12 306 0670. Our center is at 217 Pretorius Street, Pretoria.',
+    'default' => 'Thank you for reaching out! For donations, volunteering, or services, check the relevant sections on our site. How else can I assist?'
+];
+
+$lowerMessage = strtolower($message);
+$response = $responses['default'];
+if (strpos($lowerMessage, 'donate') !== false) $response = $responses['donate'];
+if (strpos($lowerMessage, 'volunteer') !== false) $response = $responses['volunteer'];
+if (strpos($lowerMessage, 'contact') !== false) $response = $responses['contact'];
+
+// Log interaction (optional, for analytics)
+error_log("Chat: User $user_id - $message -> $response");
+
+// For real AI, uncomment and configure (example with OpenAI; get API key from openai.com)
+// $ch = curl_init('https://api.openai.com/v1/chat/completions');
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// curl_setopt($ch, CURLOPT_POST, true);
+// curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+//     'model' => 'gpt-3.5-turbo',
+//     'messages' => [['role' => 'user', 'content' => $message]],
+// ]));
+// curl_setopt($ch, CURLOPT_HTTPHEADER, [
+//     'Authorization: Bearer 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',
+//     'Content-Type: application/json'
+// ]);
+// $aiResponse = curl_exec($ch);
+// $data = json_decode($aiResponse, true);
+// $response = $data['choices'][0]['message']['content'] ?? $responses['default'];
+
+echo json_encode(['response' => $response]);
+?>

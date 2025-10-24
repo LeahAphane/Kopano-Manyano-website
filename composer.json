@@ -1,0 +1,17 @@
+{
+    "name": "mywebsite/kopano-manyano",
+    "description": "Kopano Manyano Website",
+    "require-dev": {
+        "phpunit/phpunit": "11"
+    },
+    "autoload": {
+        "psr-4": {
+            "MyWebsite\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MyWebsite\\Tests\\": "tests/"
+        }
+    }
+}
